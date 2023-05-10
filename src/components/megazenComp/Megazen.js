@@ -6,47 +6,39 @@ import { useState,useEffect } from 'react';
 
 
 
-export default function Megazen() {
+export default function Megazen({saveSetting,megazenSettingRow,megazenSettingColumn, location, message}) {
     
+    const items = {...localStorage}
+    const [allValue, setAllValue] = useState(items)
+    useEffect(() => {
+      console.log(allValue)
+    }, [allValue])
 
-    const [locationAndMessage, setLocationAndMessage] = useState({
-      location : "4C",
-      message : "Berchu"
-    })
+    // const [locationAndMessage, setLocationAndMessage] = useState({
+    //   location : "4C",
+    //   message : "Berchu"
+    // })
     const [timeToLoad, setTimeToLoad] = useState(false)
     
-    const locationAndMessageArray = [{location:"5C",message:"Yadesa"}, {location:"2D", message:"2D"}];
-    locationAndMessageArray.push({location:locationAndMessage.location, message:locationAndMessage.message})
+    const locationAndMessageArray = [{location:location,message:message}];
+    // const locationAndMessageArray = [{location:location,message:message}, {location:"2D", message:"2D"}];
+    // locationAndMessageArray.push({location:locationAndMessage.location, message:locationAndMessage.message})
     
     useEffect(() => {
-      const methed = setTimeout(()=>{
+      setTimeout(()=>{
         setTimeToLoad(true)
       },1);
-      return () => clearTimeout(methed);
+     
     }, [])
     
     function onClickSave(){
-      setLocationAndMessage({
-        location : "5H",
-        message : "What"
-      })
+      // setLocationAndMessage({
+      //   location : "5H",
+      //   message : "What"
+      // })
     }
-    const [megazenSetting, setMegazenSetting] = useState({
-      column : "6",
-      row : "6"
-  })
-    function saveSetting(e) {
-      e.preventDefault()
-      const element = e.target;
-      setMegazenSetting(prevState =>({
-          ...prevState,
-          [element.name] : element.value
-      })) 
-  }
-
-
-    const numberMegazenRow = Number(megazenSetting.row);
-    const numberMegazenColumn = Number(megazenSetting.column)
+    const numberMegazenRow = Number(megazenSettingColumn);
+    const numberMegazenColumn = Number(megazenSettingRow);
     const ArrayOFLettersRow=[] , ArrayOFLettersColumn = [];
     for(let i=0; i< numberMegazenRow; i++){
         ArrayOFLettersRow.push(String.fromCharCode('A'.charCodeAt()+i));
@@ -67,9 +59,10 @@ export default function Megazen() {
       <div className='bg-white w-[70rem] h-[50rem]'>
         Megazen
         <div className='flex items-center my-2 before:border-t  before:flex-1 border-1 before:border-gray-600 after:border-t  after:flex-1 after:border-gray-600'></div>
-        <MegazenSetting saveSetting={saveSetting}
-         megazenSettingRow={megazenSetting.row}
-         megazenSettingColumn={megazenSetting.column}
+        <MegazenSetting 
+         saveSetting={saveSetting}
+         megazenSettingRow={megazenSettingRow}
+         megazenSettingColumn={megazenSettingColumn}
          />
 
 
