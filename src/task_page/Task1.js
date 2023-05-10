@@ -8,7 +8,7 @@ export default function Task1() {
       <TaskHeader />
       <div className='flex justify-center flex-wrap  px-6 py-12  mx-auto gap-2'>
         <div><IncomingMegazenForm/></div>
-        <div><Megazen/> </div>
+        <div><Megazen megazenRow="10" megzenColumn="10"/> </div>
       </div>
     </>
   )

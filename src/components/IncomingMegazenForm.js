@@ -4,7 +4,7 @@ export default function IncomingMegazenForm() {
     
   return (
     <div className='max-w-sm  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
-      <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center">የገቢ ምርት መረከቢያ ሰነድ</h5>
+      <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center">የገቢ ምርት መረከቢያ ሰነድ</h5>
       <div className='flex items-center my-2 before:border-t  before:flex-1 before:border-gray-300 after:border-t  after:flex-1 after:border-gray-300'></div>
        <form>
        <div className='p-5'>

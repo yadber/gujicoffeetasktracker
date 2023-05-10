@@ -1,15 +1,12 @@
 import React from 'react'
 
 export default function TableRow({location, name}) {
-  
-  function locationPlacement(place, text){
-    document.getElementById(place).innerHTML = text
+  function onMouseOver(location){
+    console.log(location)
   }
-  
-  locationPlacement("4B","YADESA")
   return (
-    <td
-    class="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
+    <td onClick={()=>onMouseOver(location)}
+      className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500 hover:bg-slate-500 hover:font-xl hover:cursor-pointer">
     <p id={location}></p>            
     </td>
   )
