@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import TextInput from './TextInput'
 import LocationDropDown from './LocationDropDown'
 export default function IncomingMegazenForm({onIncomingSubmit, date,fileNumber,customerName,numberPlate,productType,productLevel,productResident,GINNumber,totalWeight,singleWeight,sackQuantity,filteredWeight,providerName,receiverName,megazenLocation,onChange,megazenSettingRow,column, row,megazenSettingColumn}) {
@@ -11,29 +11,32 @@ export default function IncomingMegazenForm({onIncomingSubmit, date,fileNumber,c
       <div className='flex items-center my-2 before:border-t  before:flex-1 before:border-gray-300 after:border-t  after:flex-1 after:border-gray-300'></div>
   
       <form onSubmit={onIncomingSubmit}>
-         <div className='w-[40%] mx-[14rem]'>
+         <div className=' flex w-[80%] gap-2 mx-16'>
             <TextInput placeholder="ቀን" type="date" height="10" name="date" value={date} onChange={onChange}/>
-         </div>
-         <div className='w-[40%] mx-[14rem]'>
             <TextInput placeholder="የሰነድ ቁጥር" type="number" min="0" height="10" onChange={onChange} name="fileNumber" value={fileNumber}/>
          </div>
       <div className='flex items-center my-2 before:border-t  before:flex-1 before:border-gray-300 after:border-t  after:flex-1 after:border-gray-300'></div>
        <div className='p-5'>
+         <div className='flex gap-2'>
            <TextInput placeholder="የደንበኛው ስም" name="customerName"onChange={onChange} value={customerName}/>
            <TextInput placeholder="የመኪናው ሰሌዳ ቁጥር" name="numberPlate"onChange={onChange} value={numberPlate}/>
+         </div>
            <div className='flex gap-2' >
               <TextInput placeholder="የምርቱ ዓይነት" name="productType" onChange={onChange}value={productType}/>
               <TextInput placeholder="ደረጃ" name="productLevel" onChange={onChange}value={productLevel}/>
            </div>
-           
+           <div className='flex gap-2'>
            <TextInput placeholder="ምርቱ የመጣበት አከባቢ" name="productResident"onChange={onChange} value={productResident}/>
-           <TextInput placeholder="የወጪ ሰነድ ቁጥር (GIN No.)" name="GINNumber" onChange={onChange}value={GINNumber}/>
+           <TextInput placeholder="የወጪ ሰነድ ቁጥር" name="GINNumber" onChange={onChange}value={GINNumber}/>
+           </div>
            <div className='flex gap-2' >
               <TextInput placeholder="ጠቅላላ ክብደት" name="totalWeight" onChange={onChange}value={totalWeight}/>
               <TextInput placeholder="ነጠላ ክብደት" name="singleWeight" onChange={onChange}value={singleWeight}/>
            </div>
+           <div className='flex gap-2'>
            <TextInput placeholder="የጆንያ ብዛት" name="sackQuantity" onChange={onChange}value={sackQuantity}/>
            <TextInput placeholder="የተጣራ ክብደት" name="filteredWeight" onChange={onChange}value={filteredWeight}/>
+           </div>
            <div className='flex gap-2' >
               <TextInput placeholder="የአስረካቢ ስም" name="providerName" onChange={onChange}value={providerName}/>
               <TextInput placeholder="የተረካቢው ሰም" name="receiverName"onChange={onChange} value={receiverName}/>
