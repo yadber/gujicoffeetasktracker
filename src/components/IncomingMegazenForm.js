@@ -1,12 +1,9 @@
 import React, {useState} from 'react'
 import TextInput from './TextInput'
-export default function IncomingMegazenForm({incomingForm, date,fileNumber,customerName,numberPlate,productType,productLevel,productResident,GINNumber,totalWeight,singleWeight,sackQuantity,filteredWeight,providerName,receiverName,megazenLocation,onChange}) {
+import LocationDropDown from './LocationDropDown'
+export default function IncomingMegazenForm({onIncomingSubmit, date,fileNumber,customerName,numberPlate,productType,productLevel,productResident,GINNumber,totalWeight,singleWeight,sackQuantity,filteredWeight,providerName,receiverName,megazenLocation,onChange,megazenSettingRow,column, row,megazenSettingColumn}) {
   
-   function onIncomingSubmit(e){
-      e.preventDefault();
-      localStorage.setItem('IncomingData'+fileNumber, JSON.stringify(incomingForm));
-   }
-
+  
   return (
     <div className='max-w-sm  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
       <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center">የገቢ ምርት መረከቢያ ሰነድ</h5>
@@ -41,7 +38,14 @@ export default function IncomingMegazenForm({incomingForm, date,fileNumber,custo
               <TextInput placeholder="የአስረካቢ ስም" name="providerName" onChange={onChange}value={providerName}/>
               <TextInput placeholder="የተረካቢው ሰም" name="receiverName"onChange={onChange} value={receiverName}/>
            </div>
-           <TextInput placeholder="የመጋዘን መቀመጫ ምረጥ" name="megazenLocation"onChange={onChange} value={megazenLocation}/>
+           <div className='mb-1'>
+            <label className='text-white bg-slate-900'>የመጋዘን መቀመጫ ምረጥ</label>
+            </div>
+
+           <div className='flex gap-4'>
+               <LocationDropDown label="Column" options={megazenSettingColumn} letter="true" onChange={onChange} name="column"/>
+               <LocationDropDown label="Row" options={megazenSettingRow} letter={""} onChange={onChange} name="row"/>
+           </div>
             <button 
             className='w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-3xl shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'
             type='submit'>ኣስቀምጥ</button>

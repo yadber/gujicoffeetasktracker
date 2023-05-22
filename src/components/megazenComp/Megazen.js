@@ -8,22 +8,9 @@ import { useState,useEffect } from 'react';
 
 export default function Megazen({saveSetting,megazenSettingRow,megazenSettingColumn, location, message}) {
     
-    const items = {...localStorage}
-    const [allValue, setAllValue] = useState(items)
-    useEffect(() => {
-      console.log(allValue)
-    }, [allValue])
 
-    // const [locationAndMessage, setLocationAndMessage] = useState({
-    //   location : "4C",
-    //   message : "Berchu"
-    // })
     const [timeToLoad, setTimeToLoad] = useState(false)
-    
     const locationAndMessageArray = [{location:location,message:message}];
-    // const locationAndMessageArray = [{location:location,message:message}, {location:"2D", message:"2D"}];
-    // locationAndMessageArray.push({location:locationAndMessage.location, message:locationAndMessage.message})
-    
     useEffect(() => {
       setTimeout(()=>{
         setTimeToLoad(true)
@@ -31,12 +18,7 @@ export default function Megazen({saveSetting,megazenSettingRow,megazenSettingCol
      
     }, [])
     
-    function onClickSave(){
-      // setLocationAndMessage({
-      //   location : "5H",
-      //   message : "What"
-      // })
-    }
+ 
     const numberMegazenRow = Number(megazenSettingColumn);
     const numberMegazenColumn = Number(megazenSettingRow);
     const ArrayOFLettersRow=[] , ArrayOFLettersColumn = [];
@@ -56,8 +38,8 @@ export default function Megazen({saveSetting,megazenSettingRow,megazenSettingCol
    
 
   return (
-      <div className='bg-white w-[70rem] h-[50rem]'>
-        Megazen
+      <div className='bg-white w-[65rem] h-[50rem]'>
+        Megazen A
         <div className='flex items-center my-2 before:border-t  before:flex-1 border-1 before:border-gray-600 after:border-t  after:flex-1 after:border-gray-600'></div>
         <MegazenSetting 
          saveSetting={saveSetting}
@@ -99,7 +81,7 @@ export default function Megazen({saveSetting,megazenSettingRow,megazenSettingCol
         ""
       }
 
-      <p className='cursor-pointer' onClick={onClickSave}>onclick</p>
+     
           
     </div>
   )
