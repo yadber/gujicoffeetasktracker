@@ -2,7 +2,7 @@ import TableHead from "./TableHead";
 import TableBody from "./TableBody";
 import MegazenSetting from "./MegazenSetting";
 import { useState, useEffect } from "react";
-
+import { MdFiberNew } from "react-icons/md";
 import { Timestamp } from "firebase/firestore";
 
 export default function Megazen({
@@ -16,44 +16,44 @@ export default function Megazen({
   const currentTimestamp = Timestamp.fromDate(new Date());
 
   const [timeToLoad, setTimeToLoad] = useState(false);
-  // const locationAndMessageArray = arrayOfallData;
+  const locationAndMessageArray = arrayOfallData;
 
-  const locationAndMessageArray = [
-    {
-      GINNumber: "2121",
-      customerName: "yadesa",
-      date: "2023-05-11",
-      fileNumber: "file:24",
-      filteredWeight: "1000",
-      megazenLocation: "3C",
-      numberPlate: "PL-2033",
-      productLevel: "level-1",
-      productResident: "Bule Hora",
-      productType: "Normal",
-      providerName: "Yadesa Berchu",
-      receiverName: "Burkitu Berchu",
-      sackQuantity: "140",
-      singleWeight: "1000",
-      totalWeight: "2000",
-    },
-    {
-      GINNumber: "2121",
-      customerName: "yadesa",
-      date: "2023-05-11",
-      fileNumber: "file:22",
-      filteredWeight: "1000",
-      megazenLocation: "2B",
-      numberPlate: "PL-2033",
-      productLevel: "level-1",
-      productResident: "Bule Hora",
-      productType: "Normal",
-      providerName: "Yadesa Berchu",
-      receiverName: "Burkitu Berchu",
-      sackQuantity: "140",
-      singleWeight: "1000",
-      totalWeight: "2000",
-    },
-  ];
+  // const locationAndMessageArray = [
+  //   {
+  //     GINNumber: "2121",
+  //     customerName: "yadesa",
+  //     date: "2023-05-11",
+  //     fileNumber: "file:24",
+  //     filteredWeight: "1000",
+  //     megazenLocation: "3C",
+  //     numberPlate: "PL-2033",
+  //     productLevel: "level-1",
+  //     productResident: "Bule Hora",
+  //     productType: "Normal",
+  //     providerName: "Yadesa Berchu",
+  //     receiverName: "Burkitu Berchu",
+  //     sackQuantity: "140",
+  //     singleWeight: "1000",
+  //     totalWeight: "2000",
+  //   },
+  //   {
+  //     GINNumber: "2121",
+  //     customerName: "yadesa",
+  //     date: "2023-05-11",
+  //     fileNumber: "file:22",
+  //     filteredWeight: "1000",
+  //     megazenLocation: "2B",
+  //     numberPlate: "PL-2033",
+  //     productLevel: "level-1",
+  //     productResident: "Bule Hora",
+  //     productType: "Normal",
+  //     providerName: "Yadesa Berchu",
+  //     receiverName: "Burkitu Berchu",
+  //     sackQuantity: "140",
+  //     singleWeight: "1000",
+  //     totalWeight: "2000",
+  //   },
+  // ];
   useEffect(() => {
     setTimeout(() => {
       setTimeToLoad(true);
@@ -71,17 +71,19 @@ export default function Megazen({
     ArrayOFLettersColumn.push(i);
   }
 
-  function locationPlacement(place, text, ) {
-    // console.log(place);
-    // let element = document.getElementById(place+place);
-    // element.innerHTML = "hi there"
+  function locationPlacement(place, text,timestamp ) {
+   
+    let elementUpper = document.getElementById(place+"upper");
+    let elementBottom = document.getElementById(place+"bottom");
+    elementUpper.innerHTML ="i"
+    elementBottom.innerHTML = "N"
 
-    // let difference = currentTimestamp - timestamp;
-    // let daysDifference = Math.floor(difference / 60 / 60 / 24);
-    document.getElementById(place).innerHTML = text ? text : "text";
-    // if (daysDifference > 2) {
-    //   document.getElementById(place).style.background = "green";
-    // }
+    let difference = currentTimestamp - timestamp;
+    let daysDifference = Math.floor(difference / 60 / 60 / 24);
+    document.getElementById(place).innerHTML = text ? daysDifference : "text";
+    if (daysDifference > 2) {
+      document.getElementById(place).style.background = "green";
+    }
   }
 
   return (
@@ -126,7 +128,7 @@ export default function Megazen({
       {
         timeToLoad ? 
         locationAndMessageArray.map(val => (
-          locationPlacement(val.megazenLocation, val.fileNumber)
+          locationPlacement(val.row+val.column, val.fileNumber, val.timestamp)
         
 )) : 
         ""
