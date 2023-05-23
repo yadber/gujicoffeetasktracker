@@ -15,6 +15,7 @@ import {
 import Chart from "react-apexcharts";
 
 export default function Task1() {
+ 
   const [detailClicked, setDeteailClicked] = useState(false);
   const [CilckedData, setCilckedData] = useState();
   const allObject = {
@@ -112,6 +113,9 @@ export default function Task1() {
     setCilckedData(someData);
   }
 
+
+
+
   function saveSetting(e) {
     e.preventDefault();
     const element = e.target;
@@ -180,23 +184,20 @@ export default function Task1() {
                     <h3 className="text-3xl font-semibold">
                       FILE NO. {CilckedData.fileNumber}
                     </h3>
-                    <button
-                      className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                      onClick={() => setDeteailClicked(false)}
-                    >
-                      <div className="h-4 w-4 text-black">
-                        <AiFillCloseCircle className="text-black" />
+                      <div className="h-4 w-4 p-1 ml-auto bg-transparent border-0 text-red-700 opacity-3 float-right text-3xl leading-none font-semibold outline-none focus:outline-none cursor-pointer">
+                        <AiFillCloseCircle onClick={() => setDeteailClicked(false)}/>
                       </div>
-                    </button>
+                   
                   </div>
                   {/*body*/}
                   <div className="flex">
                   <Chart
-                  series= {[10]}
+                  series= {[CilckedData.fileNumber
+                  ]}
                   options={
                     {
                         chart: {
-                          height: 390,
+                          height: 400,
                           type: 'radialBar',
                         },
                         plotOptions: {
@@ -254,7 +255,7 @@ export default function Task1() {
                   }
                     type="radialBar"
                     width="160"
-                    height="150"
+                    height="210"
                   />
 
 
@@ -283,23 +284,147 @@ export default function Task1() {
                   </div>
                  
                   <div className="relative p-6 flex-auto">
-                    <TextInput
-                      placeholder="Column"
-                      type="text"
-                      min="0"
-                      setting="1"
-                      name="column"
-                      value={CilckedData.fileNumber}
-                      height="40"
-                    />
-                    <TextInput
-                      placeholder="Row"
-                      type="number"
-                      min="0"
-                      setting="1"
-                      name="row"
-                      height="40"
-                    />
+                    <div className="flex gap-2">
+                      <TextInput
+                        placeholder="የደንበኛው ስም"
+                        type="text"
+                        name="customerName"
+                        value={CilckedData.customerName}
+                        height="20"
+                        setting="1"
+                        editIcon={true}
+                        classType={1}
+                      />
+                      <TextInput
+                        placeholder="የመኪናው ሰሌዳ ቁጥር"
+                        type="text"
+                        name="numberPlate"
+                        height="20"
+                        setting={1}
+                        value={CilckedData.numberPlate}
+                        editIcon={true}
+                        classType={1}
+                       
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <TextInput
+                        placeholder="የምርት ኣይነት"
+                        type="text"
+                        name="customerName"
+                        value={CilckedData.productType}
+                        height="20"
+                        setting="1"
+                        editIcon={true}
+                        classType={1}
+                       
+                      />
+                      <TextInput
+                        placeholder="የምርት ደረጃ"
+                        type="text"
+                        name="numberPlate"
+                        height="20"
+                        setting={1}
+                        value={CilckedData.productLevel}
+                        editIcon={true}
+                        classType={1}
+                       
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <TextInput
+                        placeholder="ምርቱ የመጣበት አክባቢ"
+                        type="text"
+                        name="customerName"
+                        value={CilckedData.productResident}
+                        height="20"
+                        setting="1"
+                        editIcon={true}
+                        classType={1}
+                       
+                      />
+                      <TextInput
+                        placeholder="የወጪ ሰነድ ቁጥር"
+                        type="text"
+                        name="numberPlate"
+                        height="20"
+                        setting={1}
+                        value={CilckedData.GINNumber}
+                        editIcon={true}
+                        classType={1}
+                       
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <TextInput
+                        placeholder="ጠቅላላ ክብደት"
+                        type="number"
+                        name="customerName"
+                        value={CilckedData.totalWeight}
+                        height="20"
+                        setting="1"
+                        editIcon={true}
+                        classType={1}
+                       
+                      />
+                     
+                       <TextInput
+                        placeholder="ነጠላ ክብደት"
+                        type="text"
+                        name="numberPlate"
+                        height="20"
+                        setting={1}
+                        value={CilckedData.singleWeight}
+                        editIcon={true}
+                        classType={1}
+                       
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <TextInput
+                        placeholder="የጆንያ ብዛት"
+                        type="text"
+                        name="customerName"
+                        value={CilckedData.sackQuantity}
+                        height="20"
+                        setting="1"
+                        editIcon={true}
+                        classType={1}
+                      />
+                      <TextInput
+                        placeholder="የተጣራ ክብደት"
+                        type="text"
+                        name="numberPlate"
+                        height="20"
+                        setting={1}
+                        value={CilckedData.filteredWeight}
+                        editIcon={true}
+                       classType={1}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <TextInput
+                        placeholder="የኣስረካቢው ስም"
+                        type="text"
+                        name="customerName"
+                        value={CilckedData.providerName}
+                        height="20"
+                        setting="1"
+                        editIcon={true}
+                       
+                      />
+                      <TextInput
+                        placeholder="የተረካቢው ስም"
+                        type="text"
+                        name="numberPlate"
+                        height="20"
+                        setting={1}
+                        value={CilckedData.receiverName}
+                        editIcon={true}
+                       
+                      />
+                    </div>
+                   
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -315,7 +440,7 @@ export default function Task1() {
                       type="submit"
                       onClick={() => setDeteailClicked(false)}
                     >
-                      Save Changes
+                      Update Changes
                     </button>
                   </div>
                 </div>
@@ -325,7 +450,7 @@ export default function Task1() {
           </form>
         </>
       ) : (
-        "nothing clicked"
+        ""
       )}
     </>
   );
