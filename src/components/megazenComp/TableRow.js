@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { MdFiberNew } from "react-icons/md";
-import { MdNewReleases } from "react-icons/md";
 
-export default function TableRow({ location, name, arrayOfallData }) {
+
+export default function TableRow({ location, name, }) {
  
   function onMouseOver(location) {
     console.log(location);
@@ -17,16 +16,14 @@ export default function TableRow({ location, name, arrayOfallData }) {
       <div className="flex gap-10">
        
        
-        <div className="border" id={location+"upper"}>
-          
+        <div  className="border h-5 w-5 text-center justify-center align-middle mt-[-0.9rem] border-yellow-300  rounded-full" id={location+"upper"}>
         </div>
 
         <div className="border">
           <p id={location}></p>
         </div>
 
-        <div className="border" id={location+"bottom"}>
-
+        <div className="border h-5 w-5 text-center justify-center align-middle mt-[-0.9rem] border-green-300  rounded-full" id={location+"bottom"}>
         </div>
         
       </div>

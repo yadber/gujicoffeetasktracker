@@ -17,7 +17,6 @@ export default function Megazen({
 
   const [timeToLoad, setTimeToLoad] = useState(false);
   const locationAndMessageArray = arrayOfallData;
-
   // const locationAndMessageArray = [
   //   {
   //     GINNumber: "2121",
@@ -75,7 +74,10 @@ export default function Megazen({
    
     let elementUpper = document.getElementById(place+"upper");
     let elementBottom = document.getElementById(place+"bottom");
-    elementUpper.innerHTML ="i"
+    
+    
+    elementUpper.innerHTML ='i'
+
     elementBottom.innerHTML = "N"
 
     let difference = currentTimestamp - timestamp;
