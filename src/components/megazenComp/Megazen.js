@@ -12,6 +12,7 @@ export default function Megazen({
   location,
   message,
   arrayOfallData,
+  clickDetailStatusChanger
 }) {
   const currentTimestamp = Timestamp.fromDate(new Date());
 
@@ -70,21 +71,22 @@ export default function Megazen({
     ArrayOFLettersColumn.push(i);
   }
 
-  function locationPlacement(place, text,timestamp ) {
+  function locationPlacement(place, text,timestamp, sackQuantity) {
    
     let elementUpper = document.getElementById(place+"upper");
     let elementBottom = document.getElementById(place+"bottom");
     
-    
-    elementUpper.innerHTML ='i'
+    if(sackQuantity > 100 ){
+      elementUpper.innerHTML ='i'
+    }
 
-    elementBottom.innerHTML = "N"
+   
 
     let difference = currentTimestamp - timestamp;
     let daysDifference = Math.floor(difference / 60 / 60 / 24);
-    document.getElementById(place).innerHTML = text ? daysDifference : "text";
-    if (daysDifference > 2) {
-      document.getElementById(place).style.background = "green";
+    document.getElementById(place).innerHTML = text ? `fileNumber ${text}` : "text";
+    if (daysDifference < 4) {
+      elementBottom.innerHTML = "N"
     }
   }
 
@@ -119,6 +121,7 @@ export default function Megazen({
                       itemValue={value}
                       length={ArrayOFLettersRow.length}
                       arrayOfallData={locationAndMessageArray}
+                      clickDetailStatusChanger={clickDetailStatusChanger}
                     />
                   ))}
                 </tbody>
@@ -130,7 +133,7 @@ export default function Megazen({
       {
         timeToLoad ? 
         locationAndMessageArray.map(val => (
-          locationPlacement(val.row+val.column, val.fileNumber, val.timestamp)
+          locationPlacement(val.row+val.column, val.fileNumber, val.timestamp, val.sackQuantity)
         
 )) : 
         ""

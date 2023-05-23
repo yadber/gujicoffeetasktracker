@@ -1,7 +1,7 @@
 import React from 'react'
 import TableRow from './TableRow';
 
-export default function TableBody({location, itemValue,length,arrayOfallData}) {
+export default function TableBody({location, itemValue,length,arrayOfallData,clickDetailStatusChanger}) {
     const itemValueArray = [];
     for(let i=0;i<length; i++){
         itemValueArray.push(`${location}${String.fromCharCode('A'.charCodeAt()+i)}`)
@@ -20,7 +20,7 @@ export default function TableBody({location, itemValue,length,arrayOfallData}) {
             </td>
             {
                 itemValueArray.map(value =>(
-                    <TableRow location={value} name={value} key={value} arrayOfallData={arrayOfallData} />
+                    <TableRow location={value} name={value} key={value} arrayOfallData={arrayOfallData} clickDetailStatusChanger={clickDetailStatusChanger} />
                 ))
             }
         </tr>
