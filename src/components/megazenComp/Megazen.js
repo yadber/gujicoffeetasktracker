@@ -17,43 +17,45 @@ export default function Megazen({
   const currentTimestamp = Timestamp.fromDate(new Date());
 
   const [timeToLoad, setTimeToLoad] = useState(false);
-  const locationAndMessageArray = arrayOfallData;
-  // const locationAndMessageArray = [
-  //   {
-  //     GINNumber: "2121",
-  //     customerName: "yadesa",
-  //     date: "2023-05-11",
-  //     fileNumber: "file:24",
-  //     filteredWeight: "1000",
-  //     megazenLocation: "3C",
-  //     numberPlate: "PL-2033",
-  //     productLevel: "level-1",
-  //     productResident: "Bule Hora",
-  //     productType: "Normal",
-  //     providerName: "Yadesa Berchu",
-  //     receiverName: "Burkitu Berchu",
-  //     sackQuantity: "140",
-  //     singleWeight: "1000",
-  //     totalWeight: "2000",
-  //   },
-  //   {
-  //     GINNumber: "2121",
-  //     customerName: "yadesa",
-  //     date: "2023-05-11",
-  //     fileNumber: "file:22",
-  //     filteredWeight: "1000",
-  //     megazenLocation: "2B",
-  //     numberPlate: "PL-2033",
-  //     productLevel: "level-1",
-  //     productResident: "Bule Hora",
-  //     productType: "Normal",
-  //     providerName: "Yadesa Berchu",
-  //     receiverName: "Burkitu Berchu",
-  //     sackQuantity: "140",
-  //     singleWeight: "1000",
-  //     totalWeight: "2000",
-  //   },
-  // ];
+  // const locationAndMessageArray = arrayOfallData;
+  const locationAndMessageArray = [
+    {
+      GINNumber: "2121",
+      customerName: "yadesa",
+      date: "2023-05-11",
+      fileNumber: "24",
+      filteredWeight: "1000",
+      column: "C",
+      row : "3",
+      numberPlate: "PL-2033",
+      productLevel: "level-1",
+      productResident: "Bule Hora",
+      productType: "Normal",
+      providerName: "Yadesa Berchu",
+      receiverName: "Burkitu Berchu",
+      sackQuantity: "120",
+      singleWeight: "1000",
+      totalWeight: "2000",
+    },
+    {
+      GINNumber: "2122",
+      customerName: "yadesa",
+      date: "2023-05-11",
+      fileNumber: "22",
+      filteredWeight: "1000",
+      column: "D",
+      row : "2",
+      numberPlate: "PL-2033",
+      productLevel: "level-1",
+      productResident: "Bule Hora",
+      productType: "Normal",
+      providerName: "Yadesa Berchu",
+      receiverName: "Burkitu Berchu",
+      sackQuantity: "140",
+      singleWeight: "1000",
+      totalWeight: "2000",
+    },
+  ];
   useEffect(() => {
     setTimeout(() => {
       setTimeToLoad(true);
@@ -76,7 +78,7 @@ export default function Megazen({
     let elementUpper = document.getElementById(place+"upper");
     let elementBottom = document.getElementById(place+"bottom");
     
-    if(sackQuantity > 100 ){
+    if(sackQuantity < 140 ){
       elementUpper.innerHTML ='i'
     }
 
