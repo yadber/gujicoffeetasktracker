@@ -5,20 +5,14 @@ import Megazen from "../components/megazenComp/Megazen";
 import { db } from "../Firebase";
 import { AiFillCloseCircle } from "react-icons/ai";
 import TextInput from "../components/TextInput";
-import { Timestamp } from "firebase/firestore";
-import {
-  collection,
-  doc,
-  getDocs,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
+import {collection,doc,getDocs,serverTimestamp,setDoc,Timestamp} from "firebase/firestore";
 import Chart from "react-apexcharts";
 
 export default function Task1() {
- 
+ // detailClicked and CilckedData are used when the box of the megazen is clicked and the detail popup appeared 
   const [detailClicked, setDeteailClicked] = useState(false);
   const [CilckedData, setCilckedData] = useState();
+
   const allObject = {
     customerName: "",
     numberPlate: "",
@@ -37,14 +31,18 @@ export default function Task1() {
     column: "",
     row: "",
   };
-
+// incomingForm is a state which collects the incoming object form from the user
   const [incomingForm, setIncomingForm] = useState(allObject);
+//arrayOfallData is a state which collects data from the database
   const [arrayOfallData, setStoredData] = useState([]);
+// here we use a state to update a use effect so there is no multiple retrieval 
+  const [justForTheEffect, setJustForTheEffect] = useState(false);
 
   useEffect(() => {
     dataFromFirebase();
-  }, [incomingForm]);
-
+    console.log("use effect line 43")
+  }, [justForTheEffect]);
+// brings data from the database and stores it in the arrayOfallData state
   async function dataFromFirebase() {
     const res = [];
     try {
@@ -62,9 +60,10 @@ export default function Task1() {
     }
   }
 
-  dataFromFirebase();
 
+//sends data to the database and reset the form again
   async function onIncomingSubmit(e) {
+    setJustForTheEffect(prevState=>!prevState);
     e.preventDefault();
     try {
       const FormDataCopy = { ...incomingForm };
@@ -79,6 +78,8 @@ export default function Task1() {
       console.log(error);
     }
   }
+
+// deconstructing incomingForm for better use
   const {
     date,
     column,
@@ -97,11 +98,13 @@ export default function Task1() {
     providerName,
     receiverName,
   } = incomingForm;
+// default megazen size set here, not saved in the database
   const [megazenSetting, setMegazenSetting] = useState({
     column: "6",
     row: "6",
   });
 
+  // controlled input apply here
   function onChange(e) {
     const element = e.target;
     setIncomingForm((prevState) => ({
@@ -109,17 +112,18 @@ export default function Task1() {
       [element.name]: element.value,
     }));
   }
+  // the popup will appear when clicked and sets cilckedData to the object of that clicked area
   function clickDetailStatusChanger(someData) {
     setDeteailClicked((prevState) => !prevState);
     setCilckedData(someData);
   }
-
+// calculates the time difference
   function ReturnTimeDifference(){
     return Math.floor((Timestamp.fromDate(new Date()) - CilckedData.timestamp) / 60 / 60 / 24)
   }
 
 
-
+// saves the megazen setting but not on the database so it disappears when refreshed
   function saveSetting(e) {
     e.preventDefault();
     const element = e.target;
@@ -131,7 +135,7 @@ export default function Task1() {
   return (
     <>
       <TaskHeader />
-      <div className="flex justify-center flex-wrap py-12  mx-auto gap-2">
+      <div className="flex justify-center flex-wrap  py-12  mx-auto gap-2 flex-grow">
         <div className="">
           <IncomingMegazenForm
             onIncomingSubmit={onIncomingSubmit}
@@ -158,20 +162,13 @@ export default function Task1() {
           />
         </div>
         <div>
-          {/* {
-              arrayOfallData.map((result)=>( */}
           <Megazen
             saveSetting={saveSetting}
             megazenSettingRow={megazenSetting.row}
             megazenSettingColumn={megazenSetting.column}
-            // location = {result.row+result.column}
-            // message={result.fileNumber}
             arrayOfallData={arrayOfallData}
             clickDetailStatusChanger={clickDetailStatusChanger}
-            // key={result.fileNumber}
           />
-          {/* ))
-            } */}
         </div>
       </div>
 

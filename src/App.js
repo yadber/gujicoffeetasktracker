@@ -9,7 +9,7 @@ import Report from "./pages/Report";
 import Task from "./pages/Task";
 import Dashboard from "./pages/Dashboard";
 
-
+// task 1 is የገቢ ምርት መረከብያ ሰነድ
 import Task1 from "./task_page/Task1";
 import Task2 from "./task_page/Task2";
 import Task3 from "./task_page/Task3";
