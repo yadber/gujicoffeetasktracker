@@ -2,7 +2,7 @@ import TableHead from "./TableHead";
 import TableBody from "./TableBody";
 import MegazenSetting from "./MegazenSetting";
 import { useState, useEffect } from "react";
-import { MdFiberNew } from "react-icons/md";
+
 import { Timestamp } from "firebase/firestore";
 
 export default function Megazen({
@@ -17,45 +17,47 @@ export default function Megazen({
   const currentTimestamp = Timestamp.fromDate(new Date());
 
   const [timeToLoad, setTimeToLoad] = useState(false);
-  // const locationAndMessageArray = arrayOfallData;
-  const locationAndMessageArray = [
-    {
-      GINNumber: "2121",
-      customerName: "yadesa",
-      date: "2023-05-11",
-      fileNumber: "24",
-      filteredWeight: "1000",
-      column: "C",
-      row : "3",
-      numberPlate: "PL-2033",
-      productLevel: "level-1",
-      productResident: "Bule Hora",
-      productType: "Normal",
-      providerName: "Yadesa Berchu",
-      receiverName: "Burkitu Berchu",
-      sackQuantity: "120",
-      singleWeight: "1000",
-      totalWeight: "2000",
-    },
-    {
-      GINNumber: "2122",
-      customerName: "yadesa",
-      date: "2023-05-11",
-      fileNumber: "22",
-      filteredWeight: "1000",
-      column: "D",
-      row : "2",
-      numberPlate: "PL-2033",
-      productLevel: "level-1",
-      productResident: "Bule Hora",
-      productType: "Normal",
-      providerName: "Yadesa Berchu",
-      receiverName: "Burkitu Berchu",
-      sackQuantity: "140",
-      singleWeight: "1000",
-      totalWeight: "2000",
-    },
-  ];
+  const locationAndMessageArray = arrayOfallData;
+  // const locationAndMessageArray = [
+  //   {
+  //     GINNumber: "2121",
+  //     customerName: "yadesa",
+  //     date: "2023-05-11",
+  //     fileNumber: "24",
+  //     filteredWeight: "1000",
+  //     column: "C",
+  //     row : "3",
+  //     numberPlate: "PL-2033",
+  //     productLevel: "level-1",
+  //     productResident: "Bule Hora",
+  //     productType: "Normal",
+  //     providerName: "Yadesa Berchu",
+  //     receiverName: "Burkitu Berchu",
+  //     sackQuantity: "120",
+  //     singleWeight: "1000",
+  //     totalWeight: "2000",
+  //     timestamp : "1684649289"
+  //   },
+  //   {
+  //     GINNumber: "2122",
+  //     customerName: "yadesa",
+  //     date: "2023-05-11",
+  //     fileNumber: "22",
+  //     filteredWeight: "1000",
+  //     column: "D",
+  //     row : "2",
+  //     numberPlate: "PL-2033",
+  //     productLevel: "level-1",
+  //     productResident: "Bule Hora",
+  //     productType: "Normal",
+  //     providerName: "Yadesa Berchu",
+  //     receiverName: "Burkitu Berchu",
+  //     sackQuantity: "140",
+  //     singleWeight: "1000",
+  //     totalWeight: "2000",
+  //    timestamp : "1683958089"
+  //   },
+  // ];
   useEffect(() => {
     setTimeout(() => {
       setTimeToLoad(true);
@@ -86,15 +88,16 @@ export default function Megazen({
 
     let difference = currentTimestamp - timestamp;
     let daysDifference = Math.floor(difference / 60 / 60 / 24);
-    document.getElementById(place).innerHTML = text ? `fileNumber ${text}` : "text";
-    if (daysDifference < 4) {
+    document.getElementById(place).innerHTML = text ?`File:- ${text}` : "text";
+  
+    if (daysDifference < 5) {
       elementBottom.innerHTML = "N"
     }
   }
 
   return (
     <div className="bg-white w-[65rem] h-[50rem]">
-      <h5 className="text-center">መጋዘን ሀ</h5>
+      <h5 className="text-center text-2xl font-bold">መጋዘን ሀ</h5>
       <div className="flex items-center my-2 before:border-t  before:flex-1 border-1 before:border-gray-600 after:border-t  after:flex-1 after:border-gray-600"></div>
       <MegazenSetting
         saveSetting={saveSetting}

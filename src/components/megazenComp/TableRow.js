@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Timestamp } from "firebase/firestore";
 
 export default function TableRow({ location, name, arrayOfallData,clickDetailStatusChanger}) {
  
@@ -8,8 +8,18 @@ export default function TableRow({ location, name, arrayOfallData,clickDetailSta
     if(arrayOfallData[searchIndex]){
       clickDetailStatusChanger(arrayOfallData[searchIndex])
     }
+    
+    
+  }
+  function onMouseOver2(location) {
+    const searchIndex = arrayOfallData.findIndex((car) => car.row + car.column ===location);
+    return searchIndex;
   }
 
+  function calculateTime(index){
+    const difference = Math.floor((Timestamp.fromDate(new Date()) - arrayOfallData[index].timestamp) / 60 / 60 / 24)
+    return difference;
+  }
  
 
   return (
@@ -20,14 +30,14 @@ export default function TableRow({ location, name, arrayOfallData,clickDetailSta
       <div className="flex gap-1">
        
        
-        <div  className={`border h-5 w-5 text-center justify-center align-middle mt-[-0.9rem] border-yellow-300  rounded-full font-bold`} id={location+"upper"}>
+        <div  className={`${(onMouseOver2(location) >= 0) && (arrayOfallData[onMouseOver2(location)].sackQuantity < 140)  ?"border h-5 w-5 text-center justify-center align-middle mt-[-0.9rem] border-yellow-600  rounded-full font-bold":null}`} id={location+"upper"}>
         </div>
 
-        <div className="">
+        <div className={`${onMouseOver2(location) >= 0?"border-2 px-2 py-2 border-blue-200":""}`}>
           <p id={location}></p>
         </div>
 
-        <div className="border h-5 w-5 text-center justify-center align-middle mt-[-0.9rem] border-green-300  rounded-full font-bold text-red-900" id={location+"bottom"}>
+        <div className={`${onMouseOver2(location) >=0 && calculateTime(onMouseOver2(location)) <5?"border h-5 w-5 text-center justify-center align-middle mt-[-0.9rem] border-red-400  rounded-full font-bold text-red-900":null}`} id={location+"bottom"}>
         </div>
         
       </div>

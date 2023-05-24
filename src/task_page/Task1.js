@@ -5,6 +5,7 @@ import Megazen from "../components/megazenComp/Megazen";
 import { db } from "../Firebase";
 import { AiFillCloseCircle } from "react-icons/ai";
 import TextInput from "../components/TextInput";
+import { Timestamp } from "firebase/firestore";
 import {
   collection,
   doc,
@@ -113,6 +114,9 @@ export default function Task1() {
     setCilckedData(someData);
   }
 
+  function ReturnTimeDifference(){
+    return Math.floor((Timestamp.fromDate(new Date()) - CilckedData.timestamp) / 60 / 60 / 24)
+  }
 
 
 
@@ -192,7 +196,7 @@ export default function Task1() {
                   {/*body*/}
                   <div className="flex">
                   <Chart
-                  series= {[CilckedData.fileNumber
+                  series= {[ReturnTimeDifference()
                   ]}
                   options={
                     {
@@ -221,7 +225,7 @@ export default function Task1() {
                             }
                           }
                         },
-                        colors: ['#1ab7ea'],
+                        colors: [ReturnTimeDifference() <6 ?'#1ab7ea':'#1ab7ea'],
                         labels: ['የመጋዘን ቆይታ',],
                         legend: {
                           show: true,
@@ -265,6 +269,7 @@ export default function Task1() {
                       chart: {
                         type: "bar",
                       },
+                      colors: [CilckedData.sackQuantity < 140 ?'#C7CC00':'#1ab7ea'],
                       xaxis: {
                         categories: [
                           CilckedData.date
