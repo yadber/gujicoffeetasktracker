@@ -7,6 +7,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import TextInput from "../components/TextInput";
 import {collection,doc,getDocs,serverTimestamp,setDoc,Timestamp} from "firebase/firestore";
 import Chart from "react-apexcharts";
+import TotalPackage from "../components/task1GeneralReport/TotalPackage";
 
 export default function Task1() {
  // detailClicked and CilckedData are used when the box of the megazen is clicked and the detail popup appeared 
@@ -100,8 +101,8 @@ export default function Task1() {
   } = incomingForm;
 // default megazen size set here, not saved in the database
   const [megazenSetting, setMegazenSetting] = useState({
-    column: "6",
-    row: "6",
+    column: "10",
+    row: "10",
   });
 
   // controlled input apply here
@@ -134,8 +135,10 @@ export default function Task1() {
   }
   return (
     <>
+    {/* this is the task header */}
       <TaskHeader />
-      <div className="flex justify-center flex-wrap  py-12  mx-auto gap-2 flex-grow">
+      {/* this contains the megazen and the New incoming data form */}
+      <div className="flex justify-center flex-wrap  py-3  mx-auto gap-2 flex-grow">
         <div className="">
           <IncomingMegazenForm
             onIncomingSubmit={onIncomingSubmit}
@@ -170,6 +173,10 @@ export default function Task1() {
             clickDetailStatusChanger={clickDetailStatusChanger}
           />
         </div>
+        <div>
+          <TotalPackage/>
+        </div>
+        
       </div>
 
       {detailClicked ? (

@@ -37,7 +37,7 @@ export default function TableRow({ location, name, arrayOfallData,clickDetailSta
           <p id={location}></p>
         </div>
 
-        <div className={`${onMouseOver2(location) >=0 && calculateTime(onMouseOver2(location)) <5?"border h-5 w-5 text-center justify-center align-middle mt-[-0.9rem] border-red-400  rounded-full font-bold text-red-900":null}`} id={location+"bottom"}>
+        <div className={`${onMouseOver2(location) >=0 && calculateTime(onMouseOver2(location)) <7?"border h-5 w-5 text-center justify-center align-middle mt-[-0.9rem] border-red-400  rounded-full font-bold text-red-900":null}`} id={location+"bottom"}>
         </div>
         
       </div>

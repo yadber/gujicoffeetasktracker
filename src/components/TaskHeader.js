@@ -13,7 +13,7 @@ function pathMathRoute(route) {
     }
 }
 return (
-    <div className='text-center bg-green-50 border-b shadow-lg sticky top-[3rem] z-50'>
+    <div className='text-center bg-green-50 border-b shadow-lg sticky top-[3rem] z-50 w-[24rem] lg:w-full md:w-full sm:w-full'>
         <header>
             <ul className='flex justify-between items-centers px-3 max-w-4xl mx-auto'>
                 <li className= {classNameForLiComponent + `${pathMathRoute("/task/task1") ? " border-b-red-500 font-bold": ""}`} 

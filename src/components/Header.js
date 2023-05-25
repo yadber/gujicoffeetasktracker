@@ -17,7 +17,7 @@ export default function Header({theme, onThemeClick}) {
 
   
     return (
-    <div className={`${theme ? "bg-white" : "bg-gray-600"} border-b shadow-lg sticky top-0 z-40`}>
+    <div className={`${theme ? "bg-white" : "bg-gray-600"} border-b shadow-lg sticky top-0 z-40 w-[24rem] lg:w-full md:w-full sm:w-full`}>
         <header className='flex justify-between items-center px-3 max-w-7xl mx-auto'>
             <div>
                 <img src={gujiCoffee} 

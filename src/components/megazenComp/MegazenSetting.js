@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {AiFillSetting} from "react-icons/ai"
 import TextInput from '../TextInput'
+import {AiFillCloseCircle} from 'react-icons/ai'
 export default function MegazenSetting({saveSetting,megazenSettingRow,megazenSettingColumn}) {
     const [showModal, setShowModal] = useState(false)
   return (
@@ -30,16 +31,12 @@ export default function MegazenSetting({saveSetting,megazenSettingRow,megazenSet
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                     <AiFillSetting className='text-2xl mt-2'/>
                   <h3 className="text-3xl font-semibold">
-                    Megazen Setting
+                    የመጋዘን ሀ መቀያየሪያ
                   </h3>
-                  <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setShowModal(false)}
-                  >
-                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                      ×
-                    </span>
-                  </button>
+                     <div className="h-4 w-4 p-1 ml-5 bg-transparent border-0 text-red-400 opacity-3 float-right text-3xl leading-none font-semibold outline-none focus:outline-none cursor-pointer">
+                        <AiFillCloseCircle onClick={() => setShowModal(false)}/>
+                      </div>
+                  
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
@@ -49,8 +46,27 @@ export default function MegazenSetting({saveSetting,megazenSettingRow,megazenSet
                     <TextInput placeholder="Row" type="number" min="0" setting="1" name="row"
                     onChange={saveSetting} value={megazenSettingRow} height="40"
                     />
-                  
+                  <div className='flex border-yellow-600 border px-10 py-2'>
+
+                   <div className="border h-5 w-5 text-center justify-center align-middle  border-yellow-600 mt-2 rounded-full font-bold text-red-900">
+                      <p className='mt-[-2px] cursor-pointer'>i</p>
+                    </div>
+                    <div className='ml-5 mt-[5px]'>
+                      ኩንታሉ ጉድለት ኣሳይቷል
+                    </div>
+                  </div>
+                  <div className='flex border-red-400 border px-10 py-2 mt-2'>
+
+                  <div className="border h-5 w-5 text-center justify-center align-middle  border-red-400 mt-2 rounded-full font-bold text-red-900">
+                    <p className='mt-[-2px] cursor-pointer'>N</p>
+                  </div>
+                  <div className='ml-5 mt-[5px]'>
+                    አዲስ ገቢ (ክገባ 10 ቀን ያላለፈው)
+                  </div>
+                  </div>
+
                 </div>
+               
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
