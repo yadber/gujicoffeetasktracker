@@ -8,6 +8,7 @@ import TextInput from "../components/TextInput";
 import {collection,doc,getDocs,serverTimestamp,setDoc,Timestamp} from "firebase/firestore";
 import Chart from "react-apexcharts";
 import TotalPackage from "../components/task1GeneralReport/TotalPackage";
+import ResidentPackage from "../components/task1GeneralReport/ResidentPackage";
 
 export default function Task1() {
  // detailClicked and CilckedData are used when the box of the megazen is clicked and the detail popup appeared 
@@ -174,9 +175,14 @@ export default function Task1() {
           />
         </div>
         <div>
-          <TotalPackage/>
+          <TotalPackage
+          arrayOfallData={arrayOfallData}
+          />
         </div>
-        
+        <div>
+          <ResidentPackage 
+          arrayOfallData={arrayOfallData}/>
+        </div>
       </div>
 
       {detailClicked ? (

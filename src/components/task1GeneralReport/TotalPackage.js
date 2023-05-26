@@ -1,8 +1,19 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Chart from "react-apexcharts";
 
+export default function TotalPackage(arrayOfallData) {
+   
+  const sackValues = arrayOfallData.arrayOfallData.map(val => val.sackQuantity);
+  
+ 
+  const dateValues = arrayOfallData.arrayOfallData.map(function(val){
+    let value = new Date(val.timestamp.seconds * 1000)
+    return value.toDateString();
+  } )
 
-export default function TotalPackage() {
+ 
+
+    
     const options = {
         chart: {
         height: 350,
@@ -41,17 +52,17 @@ export default function TotalPackage() {
         size: 1
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        categories: dateValues,
         title: {
-          text: 'ወር'
+          text: 'ቀን'
         }
       },
       yaxis: {
         title: {
           text: 'የ ኩንታል ብዛት'
         },
-        min: 5,
-        max: 40
+        min: 20,
+        max: 300
       },
       legend: {
         position: 'top',
@@ -63,12 +74,8 @@ export default function TotalPackage() {
     }
     const states = [
             {
-              name: "ከፍተኛ - 2013",
-              data: [28, 29, 33, 36, 32, 32, 33]
-            },
-            {
-              name: "ዝቅተኛ - 2013",
-              data: [12, 11, 14, 18, 17, 13, 13]
+              name: "የኩንታል ብዛት",
+              data: sackValues
             }
           ]
     
@@ -79,7 +86,7 @@ export default function TotalPackage() {
       options={options} 
       series={states} 
       type="line" 
-      width={500}
+      width={600}
       height={400}/>
     </div>
   )
