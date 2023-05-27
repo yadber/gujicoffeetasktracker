@@ -2,21 +2,27 @@ import React, {useState} from 'react'
 import Chart from "react-apexcharts";
 
 export default function ResidentPackage(arrayOfallData) {
-    const sackValues = arrayOfallData.arrayOfallData.map(val => val.sackQuantity);
+    
+    
+    const arr2 = arrayOfallData.arrayOfallData;
+    const res2 = Array.from(arr2.reduce(
+      (m, {productResident, sackQuantity}) => m.set(productResident, (m.get(productResident) || 0) + Number(sackQuantity)), new Map
+    ), ([productResident, sackQuantity]) => ({productResident, sackQuantity}));
+    const resident = res2.map(value=>value.productResident)
+    const sack = res2.map(value=>value.sackQuantity)
+    const minValue = Math.min.apply(Math, sack)
+    const MaxValue = Math.max.apply(Math, sack)
+
   
- 
-    const dateValues = arrayOfallData.arrayOfallData.map(function(val){
-      
-      return val.productResident
-    } )
-  
-   
+    
+    
+    
   
       
       const options = {
           chart: {
           height: 350,
-          type: 'line',
+          type: 'bar',
           dropShadow: {
             enabled: true,
             color: '#000',
@@ -29,7 +35,7 @@ export default function ResidentPackage(arrayOfallData) {
             show: false
           }
         },
-        colors: ['#77B6EA', '#545454'],
+        colors: [ '#545454'],
         dataLabels: {
           enabled: true,
         },
@@ -37,7 +43,7 @@ export default function ResidentPackage(arrayOfallData) {
           curve: 'smooth'
         },
         title: {
-          text: 'የዚህ ዓመት ከፍተኛ አና ዝቅተኛ ቡና የገባበት ወር በኩንታል',
+          text: 'በዚህ ዓመት ከፍተኛ ቡና የገባበት አክባቢ በኩንታል',
           align: 'center'
         },
         grid: {
@@ -51,17 +57,17 @@ export default function ResidentPackage(arrayOfallData) {
           size: 1
         },
         xaxis: {
-          categories: dateValues,
+          categories: resident,
           title: {
-            text: 'ቀን'
+            text: 'ምርቱ የመጣበት አክባቢ'
           }
         },
         yaxis: {
           title: {
             text: 'የ ኩንታል ብዛት'
           },
-          min: 20,
-          max: 300
+          min: minValue-50,
+          max: MaxValue+50
         },
         legend: {
           position: 'top',
@@ -74,7 +80,7 @@ export default function ResidentPackage(arrayOfallData) {
       const states = [
               {
                 name: "የኩንታል ብዛት",
-                data: sackValues
+                data: sack
               }
             ]
       
@@ -84,8 +90,8 @@ export default function ResidentPackage(arrayOfallData) {
         <Chart 
         options={options} 
         series={states} 
-        type="line" 
-        width={600}
+        type="bar" 
+        width={350}
         height={400}/>
       </div>
     )

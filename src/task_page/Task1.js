@@ -9,6 +9,7 @@ import {collection,doc,getDocs,serverTimestamp,setDoc,Timestamp} from "firebase/
 import Chart from "react-apexcharts";
 import TotalPackage from "../components/task1GeneralReport/TotalPackage";
 import ResidentPackage from "../components/task1GeneralReport/ResidentPackage";
+import TotalCardView from "../components/megazenComp/TotalCardView";
 
 export default function Task1() {
  // detailClicked and CilckedData are used when the box of the megazen is clicked and the detail popup appeared 
@@ -39,9 +40,11 @@ export default function Task1() {
   const [arrayOfallData, setStoredData] = useState([]);
 // here we use a state to update a use effect so there is no multiple retrieval 
   const [justForTheEffect, setJustForTheEffect] = useState(false);
+  
 
   useEffect(() => {
     dataFromFirebase();
+    
     console.log("use effect line 43")
   }, [justForTheEffect]);
 // brings data from the database and stores it in the arrayOfallData state
@@ -134,13 +137,47 @@ export default function Task1() {
       [element.name]: element.value,
     }));
   }
+
+  // save all sack value in an array and sum them all
+
+  function sumOfAllSack(){
+    return arrayOfallData.reduce((accumulator, object) => {
+      return accumulator + Number(object.sackQuantity);
+    }, 0);
+  }
+
+  //sum of all new sack
+  function sumOfAllNewSack(){
+    let newsackArray = [];
+    arrayOfallData.map(function(val) {
+      if(Math.floor((Timestamp.fromDate(new Date()) - val.timestamp) / 60 / 60 / 24) < 7){
+        newsackArray.push(val.sackQuantity);
+      }
+    }
+    )
+    let sumValue;
+    if(newsackArray.length > 0){
+       sumValue = newsackArray.reduce((accumulator, object)=>{
+        return Number(accumulator) + Number(object);
+      })
+    }
+    return sumValue;
+  }
   return (
     <>
     {/* this is the task header */}
       <TaskHeader />
       {/* this contains the megazen and the New incoming data form */}
-      <div className="flex justify-center flex-wrap  py-3  mx-auto gap-2 flex-grow">
+      <div className="justify-center py-1  flex mx-auto gap-2 overflow-x-auto">
+        <TotalCardView text={"ኣጠቃላይ ፓኬጅ"} number={arrayOfallData.length}/>
+        <TotalCardView text={"ኣጠቃላይ ኩንታል"} number={sumOfAllSack()}/>
+        <TotalCardView text={"ኣዲስ ገቢ"} number={sumOfAllNewSack()}/>
+       
+      </div>
+      <div className="flex justify-center flex-wrap  py-3   gap-2 flex-grow">
+      
         <div className="">
+         
           <IncomingMegazenForm
             onIncomingSubmit={onIncomingSubmit}
             incomingForm={incomingForm}
@@ -166,15 +203,6 @@ export default function Task1() {
           />
         </div>
         <div>
-          <Megazen
-            saveSetting={saveSetting}
-            megazenSettingRow={megazenSetting.row}
-            megazenSettingColumn={megazenSetting.column}
-            arrayOfallData={arrayOfallData}
-            clickDetailStatusChanger={clickDetailStatusChanger}
-          />
-        </div>
-        <div>
           <TotalPackage
           arrayOfallData={arrayOfallData}
           />
@@ -183,6 +211,17 @@ export default function Task1() {
           <ResidentPackage 
           arrayOfallData={arrayOfallData}/>
         </div>
+        <div>
+          <Megazen
+            saveSetting={saveSetting}
+            megazenSettingRow={megazenSetting.row}
+            megazenSettingColumn={megazenSetting.column}
+            arrayOfallData={arrayOfallData}
+            clickDetailStatusChanger={clickDetailStatusChanger}
+          />
+        </div>
+       
+        
       </div>
 
       {detailClicked ? (

@@ -86,7 +86,7 @@ export default function TotalPackage(arrayOfallData) {
       options={options} 
       series={states} 
       type="line" 
-      width={600}
+      width={350}
       height={400}/>
     </div>
   )
