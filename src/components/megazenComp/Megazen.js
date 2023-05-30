@@ -94,7 +94,7 @@ export default function Megazen({
 
   return (
     // megazen design for both big and small screens
-    <div className="bg-white">
+    <div className="bg-gray-100">
       <h5 className="text-center text-2xl font-bold">መጋዘን ሀ</h5>
       <div className="flex items-center my-2 before:border-t  before:flex-1 border-1 before:border-gray-600 after:border-t  after:flex-1 after:border-gray-600"></div>
       <MegazenSetting
@@ -107,7 +107,7 @@ export default function Megazen({
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden">
-              <table className=" min-w-full border text-center text-sm font-light dark:border-neutral-500">
+              <table className=" min-w-full border text-center text-sm font-light  dark:border-neutral-500">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <TableHead label="#" />

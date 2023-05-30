@@ -12,10 +12,20 @@ export default function ResidentPackage(arrayOfallData) {
     const sack = res2.map(value=>value.sackQuantity)
     const minValue = Math.min.apply(Math, sack)
     const MaxValue = Math.max.apply(Math, sack)
+    
+    const DiferentColors = ["1","2","3","4","5","6","7","8","9","0","A","B","C","D","E","F"]
+   
+    let colorArray = [];
+    for(let i=0; i<res2.length; i++){
+      let singleColor='#';
+      for(let j=0; j<6; j++){
+        singleColor += DiferentColors[Math.floor(Math.random() * DiferentColors.length)]
+      }
+      colorArray.push(singleColor)
 
-  
-    
-    
+    }
+
+ 
     
   
       
@@ -35,7 +45,7 @@ export default function ResidentPackage(arrayOfallData) {
             show: false
           }
         },
-        colors: [ '#545454'],
+        colors: colorArray,
         dataLabels: {
           enabled: true,
         },
@@ -49,8 +59,8 @@ export default function ResidentPackage(arrayOfallData) {
         grid: {
           borderColor: '#e7e7e7',
           row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
+            colors:  colorArray, // takes an array which will be repeated on columns
+            opacity: 0.4
           },
         },
         markers: {
@@ -91,7 +101,7 @@ export default function ResidentPackage(arrayOfallData) {
         options={options} 
         series={states} 
         type="bar" 
-        width={350}
+        width={600}
         height={400}/>
       </div>
     )

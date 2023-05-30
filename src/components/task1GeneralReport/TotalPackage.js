@@ -10,14 +10,29 @@ export default function TotalPackage(arrayOfallData) {
     let value = new Date(val.timestamp.seconds * 1000)
     return value.toDateString();
   } )
-
  
+  const minValue = Math.min.apply(Math, sackValues);
+  const maxValue = Math.max.apply(Math, sackValues)
+  const DiferentColors = ["1","2","3","4","5","6","7","8","9","0","A","B","C","D","E","F"]
+   
+  let colorArray = [];
+  for(let i=0; i<sackValues.length; i++){
+    let singleColor='#';
+    for(let j=0; j<6; j++){
+      singleColor += DiferentColors[Math.floor(Math.random() * DiferentColors.length)]
+    }
+    colorArray.push(singleColor)
+
+  }
+
+
 
     
     const options = {
         chart: {
         height: 350,
         type: 'line',
+        
         dropShadow: {
           enabled: true,
           color: '#000',
@@ -30,7 +45,7 @@ export default function TotalPackage(arrayOfallData) {
           show: false
         }
       },
-      colors: ['#77B6EA', '#545454'],
+      colors: colorArray,
       dataLabels: {
         enabled: true,
       },
@@ -44,7 +59,7 @@ export default function TotalPackage(arrayOfallData) {
       grid: {
         borderColor: '#e7e7e7',
         row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          colors: colorArray, // takes an array which will be repeated on columns
           opacity: 0.5
         },
       },
@@ -61,8 +76,8 @@ export default function TotalPackage(arrayOfallData) {
         title: {
           text: 'የ ኩንታል ብዛት'
         },
-        min: 20,
-        max: 300
+        min: minValue-10,
+        max: maxValue+10
       },
       legend: {
         position: 'top',
@@ -86,7 +101,7 @@ export default function TotalPackage(arrayOfallData) {
       options={options} 
       series={states} 
       type="line" 
-      width={350}
+      width={900}
       height={400}/>
     </div>
   )

@@ -9,10 +9,10 @@ export default function TableBody({location, itemValue,length,arrayOfallData,cli
 
   return (
     
-        <tr className="border-b dark:border-neutral-500">
+        <tr className="border-b dark:border-neutral-500  ">
             <td
                 className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
-                    <div className='border border-black'>
+                    <div className='border border-black '>
                         <p id={location}>{itemValue}</p> 
                     </div>
                     

@@ -10,6 +10,11 @@ import Chart from "react-apexcharts";
 import TotalPackage from "../components/task1GeneralReport/TotalPackage";
 import ResidentPackage from "../components/task1GeneralReport/ResidentPackage";
 import TotalCardView from "../components/megazenComp/TotalCardView";
+import SampleData from "../components/resorce/SampleData.json"
+import ThreePointVis from "../components/megazenComp/ThreePointVis";
+
+import {BsFillArrowUpCircleFill,BsFillArrowDownCircleFill} from "react-icons/bs"
+
 
 export default function Task1() {
  // detailClicked and CilckedData are used when the box of the megazen is clicked and the detail popup appeared 
@@ -39,7 +44,10 @@ export default function Task1() {
 //arrayOfallData is a state which collects data from the database
   const [arrayOfallData, setStoredData] = useState([]);
 // here we use a state to update a use effect so there is no multiple retrieval 
-  const [justForTheEffect, setJustForTheEffect] = useState(false);
+
+// const arrayOfallData = SampleData;
+
+  const [justForTheEffect, setJustForTheEffect] = useState(true);
   
 
   useEffect(() => {
@@ -105,8 +113,8 @@ export default function Task1() {
   } = incomingForm;
 // default megazen size set here, not saved in the database
   const [megazenSetting, setMegazenSetting] = useState({
-    column: "10",
-    row: "10",
+    column: "7",
+    row: "7",
   });
 
   // controlled input apply here
@@ -146,6 +154,27 @@ export default function Task1() {
     }, 0);
   }
 
+  function sumOfAllGodoloSack(){
+    const arrayGodolo = []
+    arrayOfallData.map(val => {
+      if(val.sackQuantity < 140 ){
+        arrayGodolo.push(140 - Number(val.sackQuantity) )
+      }
+    })
+    return arrayGodolo.reduce((accumulator, object) => {
+      return accumulator + object;
+    }, 0);
+  }
+
+  function sumOfAllGodoloPackage(){
+    const arrayGodolo = []
+    arrayOfallData.map(val => {
+      if(val.sackQuantity < 140 ){
+        arrayGodolo.push(140 - Number(val.sackQuantity) )
+      }
+    })
+    return arrayGodolo.length
+  }
   //sum of all new sack
   function sumOfAllNewSack(){
     let newsackArray = [];
@@ -163,18 +192,42 @@ export default function Task1() {
     }
     return sumValue;
   }
+  function sumOfAllNewPackage(){
+    let newsackArray = [];
+    arrayOfallData.map(function(val) {
+      if(Math.floor((Timestamp.fromDate(new Date()) - val.timestamp) / 60 / 60 / 24) < 7){
+        newsackArray.push(val.sackQuantity);
+      }
+    }
+    )
+   
+    return newsackArray.length;
+  }
   return (
     <>
     {/* this is the task header */}
       <TaskHeader />
       {/* this contains the megazen and the New incoming data form */}
       <div className="justify-center py-1  flex mx-auto gap-2 overflow-x-auto">
-        <TotalCardView text={"ኣጠቃላይ ፓኬጅ"} number={arrayOfallData.length}/>
-        <TotalCardView text={"ኣጠቃላይ ኩንታል"} number={sumOfAllSack()}/>
-        <TotalCardView text={"ኣዲስ ገቢ"} number={sumOfAllNewSack()}/>
-       
+        <TotalCardView text={"አጠቃላይ ፓኬጅ"} number={arrayOfallData.length} comp = {<BsFillArrowUpCircleFill/>} />
+        <TotalCardView text={"አጠቃላይ ኩንታል"} number={sumOfAllSack()} comp = {<BsFillArrowUpCircleFill/>}  />
+        <TotalCardView text={"አዲስ ገቢ ኩንታል"} number={sumOfAllNewSack()} comp = {<BsFillArrowUpCircleFill/>} />
+        <TotalCardView text={"የጎደለ ኩንታል"} number={sumOfAllGodoloSack()} comp={<BsFillArrowDownCircleFill/>}/>
+        <TotalCardView text={"የጎደለ ፓኬጅ"} number={sumOfAllGodoloPackage()} comp={<BsFillArrowDownCircleFill/>}/>
+        <TotalCardView text={"አዲስ ገቢ ፓኬጅ"} number={sumOfAllNewPackage()} comp = {<BsFillArrowUpCircleFill/>} />
       </div>
+      
       <div className="flex justify-center flex-wrap  py-3   gap-2 flex-grow">
+     <div>
+          <TotalPackage
+          arrayOfallData={arrayOfallData}
+          />
+        </div>
+      
+        <div>
+          <ResidentPackage 
+          arrayOfallData={arrayOfallData}/>
+        </div>
       
         <div className="">
          
@@ -203,15 +256,6 @@ export default function Task1() {
           />
         </div>
         <div>
-          <TotalPackage
-          arrayOfallData={arrayOfallData}
-          />
-        </div>
-        <div>
-          <ResidentPackage 
-          arrayOfallData={arrayOfallData}/>
-        </div>
-        <div>
           <Megazen
             saveSetting={saveSetting}
             megazenSettingRow={megazenSetting.row}
@@ -220,6 +264,11 @@ export default function Task1() {
             clickDetailStatusChanger={clickDetailStatusChanger}
           />
         </div>
+        {/* <div>
+          <ThreePointVis />
+        </div> */}
+    
+       
        
         
       </div>
