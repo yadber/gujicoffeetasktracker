@@ -42,7 +42,7 @@ export default function IncomingMegazenForm({onIncomingSubmit, date,fileNumber,c
               <TextInput placeholder="የተረካቢው ሰም" name="receiverName"onChange={onChange} value={receiverName}/>
            </div>
            <div className='mb-1'>
-            <label className='text-white bg-slate-900'>የመጋዘን መቀመጫ ምረጥ</label>
+            <label className='text-white bg-slate-900 text-xl'>የመጋዘን መቀመጫ ምረጥ</label>
             </div>
 
            <div className='flex gap-4'>
@@ -50,8 +50,8 @@ export default function IncomingMegazenForm({onIncomingSubmit, date,fileNumber,c
                <LocationDropDown label="Row" options={megazenSettingRow} letter={""} onChange={onChange} name="row"/>
            </div>
             <button 
-            className='w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded-3xl shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'
-            type='submit'>ኣስቀምጥ</button>
+            className='w-full bg-blue-600 text-white px-7 py-3 text-xl font-medium uppercase rounded-3xl shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'
+            type='submit'>አስቀምጥ</button>
          </div>
    </form> 
 

@@ -2,10 +2,11 @@ import React,{useState} from 'react'
 import {AiOutlineEdit,AiOutlineRead} from 'react-icons/ai'
 
 
-export default function TextInput({placeholder, type, min,setting, name, onChange, value, height,editIcon,classType}) {
+export default function TextInput({placeholder,isEditedMethod, type, min,setting, name, onChange, value, height,editIcon,classType}) {
   const [readonlyHere, setReadonlyHere]= useState(editIcon?true:false)
   function onEditClickListnerhere(){
     setReadonlyHere(prevState=>!prevState);
+    isEditedMethod(true);
   }
   const className1 = `block py-2 px-0 w-full text-sm  ${height?`h-${height}` : `h-[30px]`}text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none ${setting?"dark:text-black":"dark:text-white "} dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`
 
@@ -29,7 +30,9 @@ export default function TextInput({placeholder, type, min,setting, name, onChang
         readOnly = {readonlyHere}
         
         />
-        {editIcon ?<div className={`absolute ${classType?"mt-[-2.0rem] ml-[8.3rem]":"mt-[-2.1rem] ml-[9.8rem]"} cursor-pointer border rounded-full `}>
+        {editIcon ?
+        <div className={`absolute ${classType?"mt-[-2.0rem] ml-[8.3rem]":"mt-[-2.1rem] ml-[9.8rem]"} cursor-pointer border rounded-full `}>
+         
          {editIcon ? readonlyHere? <AiOutlineEdit onClick={onEditClickListnerhere}/>: <AiOutlineRead onClick={onEditClickListnerhere}/> : ""}
         </div>:""}
         <label htmlFor="floating_outlined"

@@ -102,7 +102,7 @@ export default function ResidentPackage(arrayOfallData) {
         series={states} 
         type="bar" 
         width={600}
-        height={400}/>
+        height={500}/>
       </div>
     )
 }

@@ -5,21 +5,26 @@ import Megazen from "../components/megazenComp/Megazen";
 import { db } from "../Firebase";
 import { AiFillCloseCircle } from "react-icons/ai";
 import TextInput from "../components/TextInput";
-import {collection,doc,getDocs,serverTimestamp,setDoc,Timestamp} from "firebase/firestore";
+import {collection,query,doc,getDocs,serverTimestamp,setDoc,Timestamp, updateDoc, where} from "firebase/firestore";
 import Chart from "react-apexcharts";
 import TotalPackage from "../components/task1GeneralReport/TotalPackage";
 import ResidentPackage from "../components/task1GeneralReport/ResidentPackage";
 import TotalCardView from "../components/megazenComp/TotalCardView";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import SampleData from "../components/resorce/SampleData.json"
-import ThreePointVis from "../components/megazenComp/ThreePointVis";
+import ReactLoading  from 'react-loading'
+
 
 import {BsFillArrowUpCircleFill,BsFillArrowDownCircleFill} from "react-icons/bs"
 
 
 export default function Task1() {
+
  // detailClicked and CilckedData are used when the box of the megazen is clicked and the detail popup appeared 
   const [detailClicked, setDeteailClicked] = useState(false);
   const [CilckedData, setCilckedData] = useState();
+  const [reloadin, setReloading] = useState(false);
 
   const allObject = {
     customerName: "",
@@ -41,18 +46,18 @@ export default function Task1() {
   };
 // incomingForm is a state which collects the incoming object form from the user
   const [incomingForm, setIncomingForm] = useState(allObject);
+  const [updatingForm, setUpdatingForm] = useState(allObject);
 //arrayOfallData is a state which collects data from the database
   const [arrayOfallData, setStoredData] = useState([]);
 // here we use a state to update a use effect so there is no multiple retrieval 
-
 // const arrayOfallData = SampleData;
 
   const [justForTheEffect, setJustForTheEffect] = useState(true);
   
 
+ 
   useEffect(() => {
     dataFromFirebase();
-    
     console.log("use effect line 43")
   }, [justForTheEffect]);
 // brings data from the database and stores it in the arrayOfallData state
@@ -76,22 +81,64 @@ export default function Task1() {
 
 //sends data to the database and reset the form again
   async function onIncomingSubmit(e) {
-    setJustForTheEffect(prevState=>!prevState);
     e.preventDefault();
-    try {
-      const FormDataCopy = { ...incomingForm };
-      // delete FormDataCopy.password
-      FormDataCopy.timestamp = serverTimestamp();
-      await setDoc(
-        doc(db, "incoming_new_data", FormDataCopy.fileNumber),
-        FormDataCopy
-      );
-      setIncomingForm(allObject);
-    } catch (error) {
-      console.log(error);
+    if(locationExist(incomingForm.column + incomingForm.row)){
+      toast.warning("ይቅርታ! የመረጡት የመጋዘን መቀመጫ ለጊዜው ተይዟል፡፡ ሌላ ቦታ ይምረጡ",{
+        position: toast.POSITION.TOP_LEFT
+      })
+    }else if(FileNumberExist(incomingForm.fileNumber)){
+      toast.error("ይቅርታ! ያስገቡት የፋይል ቁጥር የተሳሳተ ነው፡፡ በዝህ ፍይል ቁጥር ሌላ ፋይል አለ፡፡",{
+        position: toast.POSITION.TOP_LEFT
+      })
+    }
+    else{
+      setJustForTheEffect(prevState=>!prevState);
+      setReloading(true)
+      try {
+        const FormDataCopy = { ...incomingForm };
+        // delete FormDataCopy.password
+        FormDataCopy.timestamp = serverTimestamp();
+        await setDoc(
+          doc(db, "incoming_new_data", FormDataCopy.fileNumber),
+          FormDataCopy
+        );
+        setIncomingForm(allObject);
+       
+        setTimeout(()=>{
+          window.location.reload();
+        },1000)
+
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
+ async function updateDataToFirebase(e){
+  e.preventDefault();
+  setDeteailClicked(false);
+  toast.success("የቀየሩት ፋይል በተሳካ ሁኔታ ተቀይሯል፡፡",{
+    position: toast.POSITION.TOP_LEFT
+  })
+  setTimeout(()=>{
+    setReloading(true)
+  },1000)
+    const docRef = doc(db,"incoming_new_data",updatingForm.fileNumber)
+    updateDoc(docRef, updatingForm)
+    .then(docRef => {
+      
+      setTimeout(()=>{
+        window.location.reload()
+      },
+      3000)
+     
+    })
+    .catch(error => {
+        console.log(error);
+    })
 
+  
+
+ }
 // deconstructing incomingForm for better use
   const {
     date,
@@ -116,6 +163,30 @@ export default function Task1() {
     column: "7",
     row: "7",
   });
+  const [isEdited, setIsEdited] = useState(false)
+  // checking if the location exist 
+
+  function locationExist(columnPlusRow){
+    let locationArray = [];
+
+    arrayOfallData.map(function(res){
+      let someValue = res.column + res.row;
+      locationArray.push(someValue);
+    })
+
+    return locationArray.includes(columnPlusRow)
+  }
+
+  function FileNumberExist(filenumber){
+    let locationArray = [];
+
+    arrayOfallData.map(function(res){
+      locationArray.push(res.fileNumber);
+    })
+
+    return locationArray.includes(filenumber)
+  }
+  
 
   // controlled input apply here
   function onChange(e) {
@@ -125,10 +196,20 @@ export default function Task1() {
       [element.name]: element.value,
     }));
   }
+
+  function onUpdate(e){
+    const element = e.target;
+    setUpdatingForm((prevState) =>({
+      ...prevState,
+      [element.name]: element.value
+    }))
+  }
+ 
   // the popup will appear when clicked and sets cilckedData to the object of that clicked area
   function clickDetailStatusChanger(someData) {
     setDeteailClicked((prevState) => !prevState);
     setCilckedData(someData);
+    setUpdatingForm(someData)
   }
 // calculates the time difference
   function ReturnTimeDifference(){
@@ -192,6 +273,7 @@ export default function Task1() {
     }
     return sumValue;
   }
+ 
   function sumOfAllNewPackage(){
     let newsackArray = [];
     arrayOfallData.map(function(val) {
@@ -203,10 +285,13 @@ export default function Task1() {
    
     return newsackArray.length;
   }
+  function isEditedMethod(){
+    setIsEdited(true)
+  }
   return (
     <>
     {/* this is the task header */}
-      <TaskHeader />
+      {reloadin ? <div className=" justify-center text-center align-middle items-center flex"><ReactLoading type="spokes" color="#af2f3f" height={"50%"} width={"50%"}/> </div>: <><TaskHeader />
       {/* this contains the megazen and the New incoming data form */}
       <div className="justify-center py-1  flex mx-auto gap-2 overflow-x-auto">
         <TotalCardView text={"አጠቃላይ ፓኬጅ"} number={arrayOfallData.length} comp = {<BsFillArrowUpCircleFill/>} />
@@ -216,7 +301,7 @@ export default function Task1() {
         <TotalCardView text={"የጎደለ ፓኬጅ"} number={sumOfAllGodoloPackage()} comp={<BsFillArrowDownCircleFill/>}/>
         <TotalCardView text={"አዲስ ገቢ ፓኬጅ"} number={sumOfAllNewPackage()} comp = {<BsFillArrowUpCircleFill/>} />
       </div>
-      
+      <ToastContainer />
       <div className="flex justify-center flex-wrap  py-3   gap-2 flex-grow">
      <div>
           <TotalPackage
@@ -271,11 +356,13 @@ export default function Task1() {
        
        
         
-      </div>
+      </div> </>}
+      
 
       {detailClicked ? (
         <>
-          <form onSubmit={saveSetting}>
+          <form onSubmit={updateDataToFirebase}>
+             
             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
               <div className="relative w-auto my-6 mx-auto max-w-3xl">
                 {/*content*/}
@@ -287,7 +374,9 @@ export default function Task1() {
                       FILE NO. {CilckedData.fileNumber}
                     </h3>
                       <div className="h-4 w-4 p-1 ml-auto bg-transparent border-0 text-red-700 opacity-3 float-right text-3xl leading-none font-semibold outline-none focus:outline-none cursor-pointer">
-                        <AiFillCloseCircle onClick={() => setDeteailClicked(false)}/>
+                        <AiFillCloseCircle  onClick={() => {setDeteailClicked(false);
+                        setIsEdited(false);}
+                      }/>
                       </div>
                    
                   </div>
@@ -392,10 +481,12 @@ export default function Task1() {
                         placeholder="የደንበኛው ስም"
                         type="text"
                         name="customerName"
-                        value={CilckedData.customerName}
+                        value={ isEdited ?updatingForm.customerName:CilckedData.customerName }
                         height="20"
                         setting="1"
                         editIcon={true}
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                         classType={1}
                       />
                       <TextInput
@@ -404,33 +495,40 @@ export default function Task1() {
                         name="numberPlate"
                         height="20"
                         setting={1}
-                        value={CilckedData.numberPlate}
                         editIcon={true}
                         classType={1}
-                       
+                        value={ isEdited ?updatingForm.numberPlate:CilckedData.numberPlate }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                       />
                     </div>
                     <div className="flex gap-2">
                       <TextInput
                         placeholder="የምርት ኣይነት"
                         type="text"
-                        name="customerName"
-                        value={CilckedData.productType}
+                        name="productType"
+                        
                         height="20"
                         setting="1"
                         editIcon={true}
                         classType={1}
+                        value={ isEdited ?updatingForm.productType:CilckedData.productType }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                        
                       />
                       <TextInput
                         placeholder="የምርት ደረጃ"
                         type="text"
-                        name="numberPlate"
+                        name="productLevel"
                         height="20"
                         setting={1}
-                        value={CilckedData.productLevel}
+                      
                         editIcon={true}
                         classType={1}
+                        value={ isEdited ?updatingForm.productLevel:CilckedData.productLevel }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                        
                       />
                     </div>
@@ -438,23 +536,28 @@ export default function Task1() {
                       <TextInput
                         placeholder="ምርቱ የመጣበት አክባቢ"
                         type="text"
-                        name="customerName"
-                        value={CilckedData.productResident}
+                        name="productResident"
+                        
                         height="20"
                         setting="1"
                         editIcon={true}
                         classType={1}
+                        value={ isEdited ?updatingForm.productResident:CilckedData.productResident }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                        
                       />
                       <TextInput
                         placeholder="የወጪ ሰነድ ቁጥር"
                         type="text"
-                        name="numberPlate"
+                        name="GINNumber"
                         height="20"
                         setting={1}
-                        value={CilckedData.GINNumber}
                         editIcon={true}
                         classType={1}
+                        value={ isEdited ?updatingForm.GINNumber:CilckedData.GINNumber }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                        
                       />
                     </div>
@@ -462,24 +565,28 @@ export default function Task1() {
                       <TextInput
                         placeholder="ጠቅላላ ክብደት"
                         type="number"
-                        name="customerName"
-                        value={CilckedData.totalWeight}
+                        name="totalWeight"
                         height="20"
                         setting="1"
                         editIcon={true}
                         classType={1}
+                        value={ isEdited ?updatingForm.totalWeight:CilckedData.totalWeight }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                        
                       />
                      
                        <TextInput
                         placeholder="ነጠላ ክብደት"
                         type="text"
-                        name="numberPlate"
+                        name="singleWeight"
                         height="20"
                         setting={1}
-                        value={CilckedData.singleWeight}
                         editIcon={true}
                         classType={1}
+                        value={ isEdited ?updatingForm.singleWeight:CilckedData.singleWeight }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                        
                       />
                     </div>
@@ -487,43 +594,51 @@ export default function Task1() {
                       <TextInput
                         placeholder="የጆንያ ብዛት"
                         type="text"
-                        name="customerName"
-                        value={CilckedData.sackQuantity}
+                        name="sackQuantity"
                         height="20"
                         setting="1"
                         editIcon={true}
                         classType={1}
+                        value={ isEdited ?updatingForm.sackQuantity:CilckedData.sackQuantity }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                       />
                       <TextInput
                         placeholder="የተጣራ ክብደት"
                         type="text"
-                        name="numberPlate"
+                        name="filteredWeight"
                         height="20"
                         setting={1}
-                        value={CilckedData.filteredWeight}
                         editIcon={true}
                        classType={1}
+                       value={ isEdited ?updatingForm.filteredWeight:CilckedData.filteredWeight }
+                       isEditedMethod = {isEditedMethod}
+                       onChange={onUpdate}
                       />
                     </div>
                     <div className="flex gap-2">
                       <TextInput
                         placeholder="የኣስረካቢው ስም"
                         type="text"
-                        name="customerName"
-                        value={CilckedData.providerName}
+                        name="providerName"
                         height="20"
                         setting="1"
                         editIcon={true}
+                        value={ isEdited ?updatingForm.providerName:CilckedData.providerName }
+                       isEditedMethod = {isEditedMethod}
+                       onChange={onUpdate}
                        
                       />
                       <TextInput
                         placeholder="የተረካቢው ስም"
                         type="text"
-                        name="numberPlate"
+                        name="receiverName"
                         height="20"
                         setting={1}
-                        value={CilckedData.receiverName}
                         editIcon={true}
+                        value={ isEdited ?updatingForm.receiverName:CilckedData.receiverName }
+                        isEditedMethod = {isEditedMethod}
+                        onChange={onUpdate}
                        
                       />
                     </div>
@@ -534,14 +649,16 @@ export default function Task1() {
                     <button
                       className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => setDeteailClicked(false)}
+                      onClick={() => {setDeteailClicked(false);
+                        setIsEdited(false);}
+                      }
                     >
                       Close
                     </button>
                     <button
                       className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="submit"
-                      onClick={() => setDeteailClicked(false)}
+                      // onClick={() => {setDeteailClicked(false)}}
                     >
                       Update Changes
                     </button>
