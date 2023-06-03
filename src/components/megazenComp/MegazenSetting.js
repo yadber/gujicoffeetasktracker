@@ -42,9 +42,9 @@ export default function MegazenSetting({saveSetting,megazenSettingRow,megazenSet
                 <div className="relative p-6 flex-auto">
                   
                     <TextInput placeholder="Column" type="number" min="0" setting="1" name="column" 
-                    onChange = {saveSetting} value ={megazenSettingColumn} height="40"/>
+                    onChange = {saveSetting} value ={megazenSettingColumn} height="10"/>
                     <TextInput placeholder="Row" type="number" min="0" setting="1" name="row"
-                    onChange={saveSetting} value={megazenSettingRow} height="40"
+                    onChange={saveSetting} value={megazenSettingRow} height="10"
                     />
                   <div className='flex border-yellow-600 border px-10 py-2'>
 
