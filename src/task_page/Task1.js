@@ -405,9 +405,7 @@ export default function Task1() {
               <TotalPackage arrayOfallData={arrayOfallData} />
             </div>
 
-            <div>
-              <ResidentPackage arrayOfallData={arrayOfallData} />
-            </div>
+            
 
             <div className="">
               <IncomingMegazenForm
@@ -433,6 +431,9 @@ export default function Task1() {
                 row={row}
                 onChange={onChange}
               />
+            </div>
+            <div>
+              <ResidentPackage arrayOfallData={arrayOfallData} />
             </div>
             <div>
               <Megazen
