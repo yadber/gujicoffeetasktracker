@@ -36,13 +36,7 @@ export default function Task1() {
   const [detailClicked, setDeteailClicked] = useState(false);
   const [CilckedData, setCilckedData] = useState();
   const [reloadin, setReloading] = useState(false);
-  const [showGeneralTable, setShowGeneralTable] = useState({
-    status: false,
-    title : "",
-    id : "",
-    type : ""
-  });
-
+ 
   const allObject = {
     customerName: "",
     numberPlate: "",
@@ -70,6 +64,14 @@ export default function Task1() {
   // const arrayOfallData = SampleData;
 
   const [justForTheEffect, setJustForTheEffect] = useState(true);
+  const [showGeneralTable, setShowGeneralTable] = useState({
+    status: false,
+    title : "",
+    totalPackage : "",
+    type : "",
+    arrayData : arrayOfallData
+  });
+
 
   useEffect(() => {
     dataFromFirebase();
@@ -328,8 +330,9 @@ export default function Task1() {
                 setShowGeneralTable({
                  status : true,
                  title : "አጠቃላይ ፓኬጅ",
-                 id : "1",
-                 type : "table"
+                 totalPackage : arrayOfallData.length,
+                 type : "table",
+                 arrayData : {arrayOfallData}
                 });
                }}
             />
@@ -450,8 +453,8 @@ export default function Task1() {
           </div>{" "}
         </>
       )}
-      {showGeneralTable.status ? <GeneralTableForAll title={showGeneralTable.title} id={showGeneralTable.id} type={showGeneralTable.type} 
-      setShowGeneralTableMethod = {setShowGeneralTableMethod}/> : ""}
+      {showGeneralTable.status ? <GeneralTableForAll title={showGeneralTable.title} totalPackage={showGeneralTable.totalPackage} type={showGeneralTable.type} 
+      setShowGeneralTableMethod = {setShowGeneralTableMethod}  arrayData = {arrayOfallData}/> : ""}
 
       {detailClicked ? (
         <>

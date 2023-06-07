@@ -8,7 +8,9 @@ export default function TotalPackage(arrayOfallData) {
  
   const dateValues = arrayOfallData.arrayOfallData.map(function(val){
     let value = new Date(val.timestamp.seconds * 1000)
-    return value.toDateString();
+    let tobesplittedValue = value.toDateString().split(" ");
+
+    return tobesplittedValue[1]+" "+tobesplittedValue[2]
   } )
  
   const minValue = Math.min.apply(Math, sackValues);
@@ -101,7 +103,7 @@ export default function TotalPackage(arrayOfallData) {
       options={options} 
       series={states} 
       type="line" 
-      width={900}
+      width={1300}
       height={570}/>
     </div>
   )
