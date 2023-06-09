@@ -87,7 +87,7 @@ export default function Megazen({
     let daysDifference = Math.floor(difference / 60 / 60 / 24);
     document.getElementById(place).innerHTML = text ?`File:- ${text}` : "text";
   
-    if (daysDifference < 7) {
+    if (daysDifference < 14) {
       elementBottom.innerHTML = "N"
     }
   }

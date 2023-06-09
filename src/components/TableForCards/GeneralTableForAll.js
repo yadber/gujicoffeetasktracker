@@ -3,15 +3,17 @@ import CountUp from "react-countup/";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { DataGrid } from "@mui/x-data-grid";
 import {BsFillCalendarDateFill} from "react-icons/bs"
-
+import {Timestamp} from "firebase/firestore";
 export default function GeneralTableForAll({
   title,
   totalPackage,
   setShowGeneralTableMethod,
   arrayData,
+  id
 }) {
-  const val = arrayData.map((someVal) => someVal);
 
+  const val = arrayData.map(someVal => someVal);
+  
   const columns = [
     {
       field: "id1",
@@ -21,7 +23,27 @@ export default function GeneralTableForAll({
         index.api.getRowIndexRelativeToVisibleRows(index.row.id) + 1,
     },
     { field: "fileNumber", headerName: "የሰነድ ቁጥር", width: 150 },
-    { field: "sackQuantity", headerName: "አጠቃላይ ኩንታል", width: 150 },
+    { field: "sackQuantity",  headerName: "አጠቃላይ ኩንታል", width: 150 },
+    {
+      field: "less",
+      headerName: "የጎደለ ብዛት",
+      valueGetter: ({ row }) => {
+         if(Number(row.sackQuantity)-140 > 0){
+          return `+${Number(row.sackQuantity)-140}`
+        }else
+          return Number(row.sackQuantity)-140
+      },
+    },
+    {
+      field: "duration",
+      headerName: "የመጋዘን ቆይታ",
+      valueGetter: ({ row }) => {
+          return Math.floor(
+        (Timestamp.fromDate(new Date()) - row.timestamp) / 60 / 60 / 24
+      );
+        },
+      width:150
+    },
     { field: "productType", headerName: "የምርት አይነት", width: 150 },
     { field: "productResident", headerName: "የመጣበት አከባቢ", width: 150 },
     { field: "GINNumber", headerName: "የወጪ ሰነድ ቁጥር", width: 150 },
@@ -53,7 +75,7 @@ export default function GeneralTableForAll({
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-slate-100 rounded-t">
               <h3 className="text-3xl font-semibold">{title}</h3>
-              <div className="h-10 w-14 bg-slate-100 text-center shadow-lg rounded-t-lg rotate-[-6deg]">
+              <div className="h-10 w-fit bg-slate-100 text-center shadow-lg rounded-t-lg rotate-[-6deg]">
                 <h3 className="text-3xl font-extrabold">
                   <CountUp start={0} end={totalPackage} duration={10} />
                 </h3>
@@ -67,7 +89,23 @@ export default function GeneralTableForAll({
             </div>
             {/*body*/}
             <div>
-              <DataGrid rows={val} columns={columns} />
+              <DataGrid 
+                rows={val} 
+                columns={columns} 
+                getCellClassName={(params) => {
+                  if (params.field === 'duration') {
+                    return params.value >= 14 ? 'bg-red-200' : 'bg-green-200';
+                  }if(params.field === 'sackQuantity'){
+                    return params.value >= 140 ? 'bg-red-200' : 'bg-green-200';
+                  } if(params.field === 'less'){
+                    return params.value < 0 ? 'bg-red-600' : '';
+                  }    
+                }}
+              
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0 ? 'bg-blue-200' : 'bg-gray-200'
+                }
+              />
             </div>
 
             {/*footer*/}

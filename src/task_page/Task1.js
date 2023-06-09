@@ -7,14 +7,12 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import TextInput from "../components/TextInput";
 import {
   collection,
-  query,
   doc,
   getDocs,
   serverTimestamp,
   setDoc,
   Timestamp,
   updateDoc,
-  where,
 } from "firebase/firestore";
 import Chart from "react-apexcharts";
 import TotalPackage from "../components/task1GeneralReport/TotalPackage";
@@ -291,7 +289,7 @@ export default function Task1() {
       if (
         Math.floor(
           (Timestamp.fromDate(new Date()) - val.timestamp) / 60 / 60 / 24
-        ) < 7
+        ) < 14
       ) {
         newsackArray.push(val.sackQuantity);
       }
@@ -332,7 +330,7 @@ export default function Task1() {
                  title : "አጠቃላይ ፓኬጅ",
                  totalPackage : arrayOfallData.length,
                  type : "table",
-                 arrayData : {arrayOfallData}
+                 arrayData : arrayOfallData
                 });
                }}
             />
@@ -345,7 +343,11 @@ export default function Task1() {
                 status : true,
                 title : "አጠቃላይ ኩንታል",
                 id : "2",
-                type : "table"
+                totalPackage :   arrayOfallData.reduce((accumulator, object) => {
+                  return accumulator + Number(object.sackQuantity);
+                }, 0),
+                type : "table",
+                arrayData : arrayOfallData,
                });
               }}
             />
@@ -358,8 +360,15 @@ export default function Task1() {
                  status : true,
                  title : "አዲስ ገቢ ኩንታል",
                  id : "3",
-                 type : "table"
-                });
+                 type : "table",
+                 totalPackage: sumOfAllNewSack(),
+                 arrayData :  arrayOfallData.filter(function(val) {
+                  if (Math.floor((Timestamp.fromDate(new Date()) - val.timestamp) / 60 / 60 / 24) < 14) {
+                    if( val !== 'undefined') 
+                      return  val
+                  }
+                })
+                })
                }}
             />
             <TotalCardView
@@ -371,8 +380,14 @@ export default function Task1() {
                  status : true,
                  title : "የጎደለ ኩንታል",
                  id : "4",
-                 type : "table"
-                });
+                 type : "table",
+                 totalPackage:sumOfAllGodoloSack(),
+                 arrayData:arrayOfallData.filter((val) => {
+                  if (val.sackQuantity < 140) {
+                    return val
+                  }
+                })
+                })
                }}
             />
             <TotalCardView
@@ -384,7 +399,13 @@ export default function Task1() {
                  status : true,
                  title : "የጎደለ ፓኬጅ",
                  id : "5",
-                 type : "table"
+                 type : "table",
+                 totalPackage:sumOfAllGodoloPackage(),
+                 arrayData:arrayOfallData.filter((val) => {
+                  if (val.sackQuantity < 140) {
+                    return val
+                  }
+                })
                 });
                }}
             />
@@ -397,7 +418,15 @@ export default function Task1() {
                  status : true,
                  title : "አዲስ ገቢ ፓኬጅ",
                  id : "6",
-                 type : "table"
+                 type : "table",
+                 totalPackage:sumOfAllNewPackage(),
+                 arrayData :  arrayOfallData.filter(function(val) {
+                  if (Math.floor((Timestamp.fromDate(new Date()) - val.timestamp) / 60 / 60 / 24) < 14) {
+                    if( val !== 'undefined') 
+                      return  val
+                  }
+                })
+               
                 });
                }}
             />
@@ -454,7 +483,7 @@ export default function Task1() {
         </>
       )}
       {showGeneralTable.status ? <GeneralTableForAll title={showGeneralTable.title} totalPackage={showGeneralTable.totalPackage} type={showGeneralTable.type} 
-      setShowGeneralTableMethod = {setShowGeneralTableMethod}  arrayData = {arrayOfallData}/> : ""}
+      setShowGeneralTableMethod = {setShowGeneralTableMethod}  arrayData = {showGeneralTable.arrayData}/> : ""}
 
       {detailClicked ? (
         <>
