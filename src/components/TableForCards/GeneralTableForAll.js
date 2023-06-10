@@ -4,6 +4,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { DataGrid } from "@mui/x-data-grid";
 import {BsFillCalendarDateFill} from "react-icons/bs"
 import {Timestamp} from "firebase/firestore";
+import { useEffect } from "react";
 export default function GeneralTableForAll({
   title,
   totalPackage,
@@ -11,6 +12,19 @@ export default function GeneralTableForAll({
   arrayData,
   id
 }) {
+
+
+
+  const [method, setMethod] = useState({val : "bg-[blue-200]", val1:"bg-gray-200"});
+useEffect(() => {
+  setTimeout(() => {
+    setMethod({
+      val:method.val1,
+      val1:method.val
+    })
+  }, 3000);
+}, [method])
+  
 
   const val = arrayData.map(someVal => someVal);
   
@@ -103,7 +117,7 @@ export default function GeneralTableForAll({
                 }}
               
                 getRowClassName={(params) =>
-                  params.indexRelativeToCurrentPage % 2 === 0 ? 'bg-blue-200' : 'bg-gray-200'
+                  params.indexRelativeToCurrentPage % 2 === 0 ? method.val : method.val1
                 }
               />
             </div>

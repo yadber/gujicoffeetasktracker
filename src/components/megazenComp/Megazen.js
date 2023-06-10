@@ -102,12 +102,13 @@ export default function Megazen({
         megazenSettingRow={megazenSettingRow}
         megazenSettingColumn={megazenSettingColumn}
       />
+      <div className="table-auto">
 
       <div className="flex flex-col px-6 py-6 max-h-[32.5rem] w-[24rem] lg:w-full md:w-full sm:w-[45rem]">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div className="overflow-hidden">
-              <table className=" min-w-full border text-center text-sm font-light  dark:border-neutral-500">
+            <div className="overflow-hidden shadow-md sm:rounded-lg">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-900">
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <TableHead label="#" />
@@ -132,6 +133,7 @@ export default function Megazen({
             </div>
           </div>
         </div>
+      </div>
       </div>
       {
         timeToLoad ? 
