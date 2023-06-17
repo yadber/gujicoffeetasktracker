@@ -269,7 +269,7 @@ export default function Task1() {
       if (
         Math.floor(
           (Timestamp.fromDate(new Date()) - val.timestamp) / 60 / 60 / 24
-        ) < 7
+        ) < 14
       ) {
         newsackArray.push(val.sackQuantity);
       }

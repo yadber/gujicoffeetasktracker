@@ -16,14 +16,20 @@ export default function GeneralTableForAll({
 
 
   const [method, setMethod] = useState({val : "bg-[blue-200]", val1:"bg-gray-200"});
+  const [RedMethod, setRedMethod] = useState({val : "bg-red-500", val1: ""});
 useEffect(() => {
   setTimeout(() => {
     setMethod({
       val:method.val1,
       val1:method.val
     })
+    setRedMethod({
+          val: RedMethod.val1,
+          val1:RedMethod.val
+        })
   }, 3000);
-}, [method])
+
+}, [method, RedMethod])
   
 
   const val = arrayData.map(someVal => someVal);
@@ -112,7 +118,7 @@ useEffect(() => {
                   }if(params.field === 'sackQuantity'){
                     return params.value >= 140 ? 'bg-red-200' : 'bg-green-200';
                   } if(params.field === 'less'){
-                    return params.value < 0 ? 'bg-red-600' : '';
+                    return params.value < 0 ? RedMethod.val : '';
                   }    
                 }}
               
