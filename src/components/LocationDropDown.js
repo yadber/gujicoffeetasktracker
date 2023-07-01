@@ -1,14 +1,18 @@
-export default function LocationDropDown({label, options, letter ,name, onChange,}) {
+export default function LocationDropDown({task2, label, options, letter ,name, onChange,arrayOfallData}) {
   const ArrayOFLettersRow =[];
   const numberMegazen = Number(options);
-  if(letter){
-    for(let i=0; i< numberMegazen; i++){
-        ArrayOFLettersRow.push(String.fromCharCode('A'.charCodeAt()+i));
-    }
+  if(task2 === true){
+    arrayOfallData.map(res => ArrayOFLettersRow.push(res.fileNumber));
   }else{
-    for(let i=1; i< numberMegazen+1; i++){
-      ArrayOFLettersRow.push(i);
-  }
+    if(letter){
+      for(let i=0; i< numberMegazen; i++){
+          ArrayOFLettersRow.push(String.fromCharCode('A'.charCodeAt()+i));
+      }
+    }else{
+      for(let i=1; i< numberMegazen+1; i++){
+        ArrayOFLettersRow.push(i);
+    }
+    }
   }
   return (
     <div className='mb-2 w-52'>

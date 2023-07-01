@@ -29,22 +29,22 @@ export default function Header({theme, onThemeClick}) {
             <div>
                 <ul className='flex space-x-3 lg:space-x-14 md:space-x-8'>
                     <li 
-                        className={classNameForLiComponent + `${pathMathRoute("/") ? " border-b-slate-900 font-bold": ""}`}
+                        className={classNameForLiComponent + `${pathMathRoute("/") ? " border-b-red-600 font-bold": ""}`}
                         onClick={()=>navigate("/")}>
                         Home
                     </li>
                     <li
-                        className={classNameForLiComponent + `${pathMathRoute("/dashboard") ? " border-b-slate-900 font-bold": ""}`}
+                        className={classNameForLiComponent + `${pathMathRoute("/dashboard") ? " border-b-red-600 font-bold": ""}`}
                         onClick={()=>navigate("/dashboard")}>
                         Dashboard
                     </li>
                     <li
-                        className={classNameForLiComponent + `${pathMathRoute("/task") ? " border-b-slate-900 font-bold": ""}`}
+                        className={classNameForLiComponent + `${pathMathRoute("/task") ? " border-b-red-600 font-bold": ""}`}
                         onClick={()=>navigate("/task")}>
                         Task
                     </li>
                     <li
-                        className={classNameForLiComponent + `${pathMathRoute("/report") ?" border-b-slate-900 font-bold": ""}`}
+                        className={classNameForLiComponent + `${pathMathRoute("/report") ?" border-b-red-600 font-bold": ""}`}
                         onClick={()=>navigate("/report")}>
                         Report
                     </li>
