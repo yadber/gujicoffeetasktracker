@@ -1,12 +1,12 @@
 import React from 'react'
 import Chart from "react-apexcharts";
 
-export default function TotalPackage(arrayOfallData) {
-   
-  const sackValues = arrayOfallData.arrayOfallData.map(val => val.sackQuantity);
-  
+export default function TotalPackage({arrayOfallData,title}) {
+
  
-  const dateValues = arrayOfallData.arrayOfallData.map(function(val){
+  const sackValues = arrayOfallData.map(val => val.sackQuantity);
+ 
+  const dateValues = arrayOfallData.map(function(val){
     let value = new Date(val.timestamp.seconds * 1000)
     let tobesplittedValue = value.toDateString().split(" ");
 
@@ -55,7 +55,7 @@ export default function TotalPackage(arrayOfallData) {
         curve: 'smooth'
       },
       title: {
-        text: 'የዚህ ዓመት ከፍተኛ አና ዝቅተኛ ቡና የገባበት ወር በኩንታል',
+        text: title? title : 'የዚህ ዓመት ከፍተኛ አና ዝቅተኛ ቡና የገባበት ወር በኩንታል',
         align: 'center'
       },
       grid: {

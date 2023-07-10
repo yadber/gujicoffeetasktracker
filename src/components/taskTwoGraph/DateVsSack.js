@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Chart from "react-apexcharts";
-export default function DateVsSack() {
+export default function DateVsSack({country, title, sack, colors}) {
+ 
   return (
     <div>
        <Chart
@@ -8,19 +9,15 @@ export default function DateVsSack() {
                         chart: {
                           type: "bar",
                         },
-                        colors: [
-                         
-                            "#C7CC00"
-                           
-                        ],
+                        colors: colors,
                         xaxis: {
-                          categories: [1990, 2000,2001, 2002],
+                          categories: country,
                         },
                       }}
                       series={[
                         {
-                          name: "የኩንታል ብዛት",
-                          data: [222,333,444,555],
+                          name: title,
+                          data: sack,
                         },
                       ]}
                       type="bar"

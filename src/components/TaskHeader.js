@@ -29,7 +29,7 @@ return (
                 <li className={classNameForLiComponent +  `${pathMathRoute("/task/task3") ? " border-b-red-400 ": " "}`}
                 onClick={()=>navigate("/task/task3")}
                 >
-                    task 3
+                    የማጣራት ማጠናነቅያ ሰነድ
                 </li>
                 <li className={classNameForLiComponent +  `${pathMathRoute("/task/task4") ? " border-b-red-400 font-bold": ""}`}
                 onClick={()=>navigate("/task/task4")}

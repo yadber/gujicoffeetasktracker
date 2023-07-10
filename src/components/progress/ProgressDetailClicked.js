@@ -2,31 +2,30 @@ import React from 'react'
 import TextInput from '../TextInput';
 import { AiFillCloseCircle } from "react-icons/ai";
 import Chart from "react-apexcharts";
-export default function ProgressDetailClicked({setDetailClickedfunction}) {
+export default function ProgressDetailClicked({setDetailClickedfunction,detailClickedFileNumber,DurationOFFiltering,detailCrewData}) {
+  
   return (
     <div>
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              <div className="relative w-auto my-6 mx-auto max-w-4xl">
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
                   <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                     {/* <AiFillSetting className='text-2xl mt-2'/> */}
                     <h3 className="text-3xl font-semibold">
-                      FILE NO. {20}
+                      የሰነድ ቁጥር - {detailClickedFileNumber}
                     </h3>
-                    <div className="h-4 w-4 p-1 ml-auto bg-transparent border-0 text-red-700 opacity-3 float-right text-3xl leading-none font-semibold outline-none focus:outline-none cursor-pointer"
+                    <div className="h-4 w-4 p-1 ml-4 bg-transparent border-0 text-red-700 opacity-3 float-right text-3xl leading-none font-semibold outline-none focus:outline-none cursor-pointer"
                     onClick={setDetailClickedfunction}
                     >
-                      <AiFillCloseCircle
-                        // onClick={setDetailClickedfunction}
-                      />
+                      <AiFillCloseCircle/>
                     </div>
                   </div>
                   {/*body*/}
-                  <div className="flex">
+                  <div className="flex mb-[-2.5rem] justify-center text-center">
                     <Chart
-                      series={[23]}
+                      series={[DurationOFFiltering]}
                       options={{
                         chart: {
                           height: 400,
@@ -56,7 +55,7 @@ export default function ProgressDetailClicked({setDetailClickedfunction}) {
                         colors: [
                           20 < 6 ? "#1ab7ea" : "#1ab7ea",
                         ],
-                        labels: ["የመጋዘን ቆይታ"],
+                        labels: ["መጣራት ከጀመረ "],
                         legend: {
                           show: true,
                           floating: true,
@@ -73,7 +72,7 @@ export default function ProgressDetailClicked({setDetailClickedfunction}) {
                           formatter: function (seriesName, opts) {
                             return (
                               seriesName +
-                              ":  " +
+                              ": ቀን " +
                               opts.w.globals.series[opts.seriesIndex]
                             );
                           },
@@ -93,73 +92,43 @@ export default function ProgressDetailClicked({setDetailClickedfunction}) {
                         ],
                       }}
                       type="radialBar"
-                      width="160"
+                      width="230"
                       height="210"
-                    />
-
-                    <Chart
-                      options={{
-                        chart: {
-                          type: "bar",
-                        },
-                        colors: [
-                         120 < 140
-                            ? "#C7CC00"
-                            : "#1ab7ea",
-                        ],
-                        xaxis: {
-                          categories: [1220,1230],
-                        },
-                      }}
-                      series={[
-                        {
-                          name: "የኩንታል ብዛት",
-                          data: [10,20],
-                        },
-                      ]}
-                      type="bar"
-                      width="250"
-                      height="180"
                     />
                   </div>
 
                   <div className="relative p-6 flex-auto">
-                    <div className="flex gap-2">
-                      <TextInput
-                        placeholder="የደንበኛው ስም"
-                        type="text"
-                        name="customerName"
-                       
-                        height="20"
-                        setting="1"
-                        editIcon={true}
-                      
-                        classType={1}
-                      />
-                      <TextInput
-                        placeholder="የመኪናው ሰሌዳ ቁጥር"
-                        type="text"
-                        name="numberPlate"
-                        height="20"
-                        setting={1}
-                        editIcon={true}
-                        classType={1}
-                       
-                      />
+                    <div className='text-center font-bold text-xl mb-2'>
+                      የአባላት ስም እና የስራ ድርሻ
                     </div>
-                    <div className="flex gap-2">
-                      <TextInput
-                        placeholder="የምርት ኣይነት"
-                        type="text"
-                        name="productType"
-                        height="20"
-                        setting="1"
-                        editIcon={true}
-                        classType={1}
-                      
-                      />
-                      
-                    </div>
+                      {
+                        detailCrewData.map(function(res) {
+                          return (<div key={res.id} className='flex gap-2'>
+                                <TextInput
+                                  placeholder="የአባል ስም"
+                                  type="text"
+                                  name="customerName"
+                                  value={res.name}
+                                  height="20"
+                                  setting="0"
+                                  classType={0}
+                                />
+                                  <TextInput
+                                    placeholder="የስራ ድርሻ"
+                                    type="text"
+                                    name="productType"
+                                    height="20"
+                                    setting="0"
+                                    value ={res.description}
+                                    classType={0}
+                                  
+                                  />
+                          </div>)
+                        })
+                      }
+
+
+                 
                     
                   </div>
                   {/*footer*/}
@@ -167,7 +136,7 @@ export default function ProgressDetailClicked({setDetailClickedfunction}) {
                     <button
                       className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                     
+                      onClick={setDetailClickedfunction}
                     >
                       Close
                     </button>
