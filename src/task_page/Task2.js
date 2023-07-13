@@ -15,13 +15,11 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import GeneralTableForAll from "../components/TableForCards/GeneralTableForAll";
-
 import { db } from "../Firebase";
 import TotalCardView from "../components/megazenComp/TotalCardView";
 import ProgressDetailClicked from '../components/progress/ProgressDetailClicked'
-
 import TotalPackage from '../components/task1GeneralReport/TotalPackage'
-import { colors } from '@mui/material'
+
 
 export default function Task2() {
   const [detailClicked, setDetailClicked] = useState(false);

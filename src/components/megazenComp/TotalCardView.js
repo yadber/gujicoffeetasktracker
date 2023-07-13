@@ -1,6 +1,6 @@
 import React from 'react'
 import CountUp from 'react-countup/'
-export default function TotalCardView({text, number,comp, onClick}) {
+export default function TotalCardView({text, number,comp, onClick ,kg}) {
   
   return (
     <div>
@@ -11,7 +11,7 @@ export default function TotalCardView({text, number,comp, onClick}) {
                 <div className="flex flex-col items-center justify-center">
                     <dd className="text-red-500 dark:text-red-600 text-xl font-semibold border">{text}</dd>
                     <dt className="flex gap-3 mb-2 text-4xl font-extrabold">
-                      <CountUp start={0} end={number} duration={10}/>
+                      <CountUp start={0} end={number} duration={10}/><p className='text-3xl text-red-500 mt-[4px] ml-[-8px]'>{kg}</p>
                       <div className=' text-3xl mt-[6px]'>
                         {comp}
                       </div>
