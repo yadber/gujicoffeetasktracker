@@ -1,8 +1,8 @@
-export default function LocationDropDown({task2, label, options, letter ,name, onChange,arrayOfallData}) {
+export default function LocationDropDown({task2, label, options, letter ,name, onChange,arrayOfallData,dropDownTitle}) {
   const ArrayOFLettersRow =[];
   const numberMegazen = Number(options);
   if(task2 === true){
-    arrayOfallData.map(res => ArrayOFLettersRow.push(res.fileNumber));
+    arrayOfallData.map(res => dropDownTitle?ArrayOFLettersRow.push(res.completeFiltering.cleanCoffee.location):ArrayOFLettersRow.push(res.fileNumber));
   }else{
     if(letter){
       for(let i=0; i< numberMegazen; i++){

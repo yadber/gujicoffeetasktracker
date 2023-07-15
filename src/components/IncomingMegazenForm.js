@@ -1,23 +1,40 @@
 import React from 'react'
 import TextInput from './TextInput'
 import LocationDropDown from './LocationDropDown'
-export default function IncomingMegazenForm({onIncomingSubmit, date,fileNumber,customerName,numberPlate,productType,productLevel,productResident,GINNumber,totalWeight,singleWeight,sackQuantity,filteredWeight,providerName,receiverName,megazenLocation,onChange,megazenSettingRow,column, row,megazenSettingColumn}) {
+export default function IncomingMegazenForm({task4, onIncomingSubmit, date,fileNumber,customerName,numberPlate,productType,productLevel,productResident,GINNumber,totalWeight,singleWeight,sackQuantity,filteredWeight,providerName,receiverName,megazenLocation,onChange,megazenSettingRow,column, row,megazenSettingColumn,title,compltedDataAll,otherFormTaskFour,onChangeTaskFour,onIncomingSubmitTaskFour,dropDownTitle}) {
   
   
   return (
     <div className='max-w-sm  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'>
-      <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center">የገቢ ምርት መረከቢያ ሰነድ</h5>
+      <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center">{title}</h5>
 
       <div className='flex items-center my-2 before:border-t  before:flex-1 before:border-gray-300 after:border-t  after:flex-1 after:border-gray-300'></div>
   
-      <form onSubmit={onIncomingSubmit}>
-         <div className=' flex w-[80%] gap-2 mx-16'>
-            <TextInput placeholder="ቀን" type="date" height="10" name="date" value={date} onChange={onChange}/>
-            <TextInput placeholder="የሰነድ ቁጥር" type="number" min="0" height="10" onChange={onChange} name="fileNumber" value={fileNumber}/>
-         </div>
+      <form  onSubmit={task4?onIncomingSubmitTaskFour:onIncomingSubmit}>
+         {
+          task4 
+          ?
+          <div className=' flex w-[55%] gap-1 mx-10 flex-col'>
+          <TextInput placeholder="ቀን" type="date" height="10" name="date" value={otherFormTaskFour.date} onChange={(e)=> onChangeTaskFour(e)}/>
+          <LocationDropDown label={dropDownTitle?dropDownTitle:"የሰነድ ቁጥር" } 
+          task2={true} 
+          value = {dropDownTitle?otherFormTaskFour.warehouse:otherFormTaskFour.fileNumber} 
+          onChange={(e)=> onChangeTaskFour(e)} name="fileNumber" 
+          arrayOfallData = {compltedDataAll}
+          dropDownTitle ={dropDownTitle}
+          />
+       </div>
+          :<div className=' flex w-[80%] gap-2 mx-16'>
+          <TextInput placeholder="ቀን" type="date" height="10" name="date" value={date} onChange={onChange}/>
+          <TextInput placeholder="የሰነድ ቁጥር" type="number" min="0" height="10" onChange={onChange} name="fileNumber" value={fileNumber}/>
+       </div>
+         }
+         
       <div className='flex items-center my-2 before:border-t  before:flex-1 before:border-gray-300 after:border-t  after:flex-1 after:border-gray-300'></div>
        <div className='p-5'>
-         <div className='flex gap-2'>
+         {
+            task4 ? "":
+            <><div className='flex gap-2'>
            <TextInput placeholder="የደንበኛው ስም" name="customerName"onChange={onChange} value={customerName}/>
            <TextInput placeholder="የመኪናው ሰሌዳ ቁጥር" name="numberPlate"onChange={onChange} value={numberPlate}/>
          </div>
@@ -40,15 +57,23 @@ export default function IncomingMegazenForm({onIncomingSubmit, date,fileNumber,c
            <div className='flex gap-2' >
               <TextInput placeholder="የአስረካቢ ስም" name="providerName" onChange={onChange}value={providerName}/>
               <TextInput placeholder="የተረካቢው ሰም" name="receiverName"onChange={onChange} value={receiverName}/>
-           </div>
+           </div></>}
            <div className='mb-1'>
             <label className='text-white bg-slate-900 text-xl'>የመጋዘን መቀመጫ ምረጥ</label>
             </div>
 
-           <div className='flex gap-4'>
+          { task4
+          
+          ?<div className='flex gap-4'>
+               <LocationDropDown label="Column" options={7} letter="true" 
+                name="column"  onChange={onChangeTaskFour}/>
+
+               <LocationDropDown label="Row" options={7} letter={""} onChange={onChangeTaskFour} name="row"/>
+           </div>
+          :<div className='flex gap-4'>
                <LocationDropDown label="Column" options={megazenSettingColumn} letter="true" onChange={onChange} name="column"/>
                <LocationDropDown label="Row" options={megazenSettingRow} letter={""} onChange={onChange} name="row"/>
-           </div>
+           </div>}
             <button 
             className='w-full bg-blue-600 text-white px-7 py-3 text-xl font-medium uppercase rounded-3xl shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'
             type='submit'>አስቀምጥ</button>

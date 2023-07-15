@@ -441,6 +441,7 @@ export default function Task1() {
 
             <div className="">
               <IncomingMegazenForm
+                title = {"የገቢ ምርት መረከቢያ ሰነድ"}
                 onIncomingSubmit={onIncomingSubmit}
                 incomingForm={incomingForm}
                 date={date}

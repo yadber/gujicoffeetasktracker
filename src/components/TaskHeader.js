@@ -34,7 +34,7 @@ return (
                 <li className={classNameForLiComponent +  `${pathMathRoute("/task/task4") ? " border-b-red-400 font-bold": ""}`}
                 onClick={()=>navigate("/task/task4")}
                 >
-                    task 4
+                    የተጣራ ቡና መጋዘን
                 </li>
             </ul>
         </header>
