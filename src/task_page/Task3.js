@@ -14,26 +14,23 @@ import { db } from "../Firebase";
 import ReactLoading from "react-loading";
 import TotalCardView from '../components/megazenComp/TotalCardView';
 import PieChart from '../components/taskThreeGraph/PieChart';
+import LocationDropDown from '../components/LocationDropDown';
 export default function Task3() {
   const [arrayOfallData, setStoredData] = useState([]);
   const [completedFiltering, setCompletedFiltering] = useState([]);
   const [filteringData, setFilteringData] = useState([]);
   const [rejectionTypes, setRejectionTypes] = useState([{type:"", weight:""}]);
-   
+  const [selectedFileNumber, setSelectedFileNumber]= useState({fileNumber:""})
   const [cleanCoffee, setCleanCoffee] = useState({
     totalWeight: "",
     location : "",
     description : ""
   })
-
-
   const [otherForm, setOtherForm] = useState({
     date:"",
     fileNumber : ""
   })
   const [reloading, setReloading] = useState(false);
-
-
   useEffect(() => {
     dataFromFirebase();
     console.log("use effect task 3");
@@ -59,7 +56,6 @@ export default function Task3() {
       [element.name] : element.value
     }))
    }
-
    function handleDeleteRejctionTypes(i){
     let newFormValues = [...rejectionTypes];
     newFormValues.splice(i,1);
@@ -107,7 +103,6 @@ export default function Task3() {
       console.log(error);
     }
   }
-
 async function submitFilteringComplete(e){
   e.preventDefault();
   const completeFiltering = {
@@ -132,49 +127,87 @@ async function submitFilteringComplete(e){
     console.log(error)
   }
 }
-
-function totalCleanCoffeeWeight(){
-  return completedFiltering.reduce((accumulator, object) =>{
-    return accumulator + Number(object.completeFiltering.cleanCoffee.totalWeight)
-  }, 0);
+function totalCleanCoffeeWeight(selectedSomeData){
+  if(!selectedSomeData){
+    return completedFiltering.reduce((accumulator, object) =>{
+      return accumulator + Number(object.completeFiltering.cleanCoffee.totalWeight)
+    }, 0);
+    
+  }else{
+    const OnlySelectedDataFromCompletedFiltering = completedFiltering.filter(res => res.fileNumber === selectedSomeData)
+    return OnlySelectedDataFromCompletedFiltering.reduce((accumulator, object) =>{
+      return accumulator + Number(object.completeFiltering.cleanCoffee.totalWeight)
+    }, 0);
+  }
 }
-
-function totalNotCleanCoffeeWeight(){
+function totalNotCleanCoffeeWeight(selectedSomeData){
+  
   const rejectionvsWeightArray = [];
   const arrayOfWeightOnly = []
-  completedFiltering.map(res => rejectionvsWeightArray.push(res.completeFiltering.rejectionVsWeight))
-  for(let j=0 ; j<rejectionvsWeightArray.length; j++){
-      rejectionvsWeightArray[j].map(res => arrayOfWeightOnly.push(res.weight));
-    
+  if(!selectedSomeData){
+    completedFiltering.map(res => rejectionvsWeightArray.push(res.completeFiltering.rejectionVsWeight))
+    for(let j=0 ; j<rejectionvsWeightArray.length; j++){
+        rejectionvsWeightArray[j].map(res => arrayOfWeightOnly.push(res.weight));
+    }
+    return arrayOfWeightOnly.reduce((accumulator,object)=>{
+      return accumulator + Number(object)
+    },0)
+  }else{
+    const OnlySelectedDataFromCompletedFiltering = completedFiltering.filter(res => res.fileNumber === selectedSomeData);
+    OnlySelectedDataFromCompletedFiltering.map(res => rejectionvsWeightArray.push(res.completeFiltering.rejectionVsWeight))
+    for(let j=0 ; j<rejectionvsWeightArray.length; j++){
+        rejectionvsWeightArray[j].map(res => arrayOfWeightOnly.push(res.weight));
+    }
+    return arrayOfWeightOnly.reduce((accumulator,object)=>{
+      return accumulator + Number(object)
+    },0)
   }
- 
-  
- return arrayOfWeightOnly.reduce((accumulator,object)=>{
-    return accumulator + Number(object)
-  },0)
-
 }
-function totalCoffee(){
+function totalCoffee(selectedSomeData){
   const rejectionvsWeightArray = [];
-completedFiltering.map(res => rejectionvsWeightArray.push(res.filteredWeight))
- return rejectionvsWeightArray.reduce((accumulator,object)=>{
-    return accumulator + Number(object)
-  },0)
-}
+  if(!selectedSomeData){
+    completedFiltering.map(res => rejectionvsWeightArray.push(res.filteredWeight))
+    return rejectionvsWeightArray.reduce((accumulator,object)=>{
+        return accumulator + Number(object)
+    },0)
+  }else{
+    const OnlySelectedDataFromCompletedFiltering = completedFiltering.filter(res => res.fileNumber === selectedSomeData);
+    OnlySelectedDataFromCompletedFiltering.map(res => rejectionvsWeightArray.push(res.filteredWeight))
+    return rejectionvsWeightArray.reduce((accumulator,object)=>{
+        return accumulator + Number(object)
+    },0)
+  }
 
-function notCoffeeAtAll(){
-   
+}
+function notCoffeeAtAll(selectedSomeData){
   const TotalWeightArrival = []
-  completedFiltering.map((res) => TotalWeightArrival.push( res.filteredWeight));
-  const totalSum = TotalWeightArrival.reduce((a,b) => {
-    return a + Number(b)
-  },0)
-  return totalSum - (totalCleanCoffeeWeight() + totalNotCleanCoffeeWeight())
+  if(!selectedSomeData){
+    completedFiltering.map((res) => TotalWeightArrival.push( res.filteredWeight));
+    const totalSum = TotalWeightArrival.reduce((a,b) => {
+      return a + Number(b)
+    },0)
+    return totalSum - (totalCleanCoffeeWeight() + totalNotCleanCoffeeWeight())
+  }else{
+    const OnlySelectedDataFromCompletedFiltering = completedFiltering.filter(res => res.fileNumber === selectedSomeData);
+    OnlySelectedDataFromCompletedFiltering.map((res) => TotalWeightArrival.push( res.filteredWeight));
+    const totalSum = TotalWeightArrival.reduce((a,b) => {
+      return a + Number(b)
+    },0)
+    const firstNumber = Number(totalSum);
+    const someNumberOne = Number(totalCleanCoffeeWeight(selectedSomeData))
+    const OnotherNumberTwo =Number(totalNotCleanCoffeeWeight(selectedSomeData))
+    return firstNumber - (someNumberOne+OnotherNumberTwo)
+  }
+   
 }
-
-
-
-  return (
+function OnSelectDifferentFileNumber(e){
+  let someValue = e.target.value;
+  if(someValue === "የሰነድ ቁጥር"){
+    someValue = "";
+  }
+  setSelectedFileNumber({fileNumber:someValue})
+}
+return (
     <>
     {reloading ? (
         <div className=" justify-center text-center align-middle items-center flex">
@@ -194,7 +227,6 @@ function notCoffeeAtAll(){
                 መጣራት ከጀመረበት ጊዜ አንስቶ እስከ አሁን ድረስ
               </div>
             <div className='flex gap-1'>
-              
             <TotalCardView
                   text={"እየተጣራ ያለ ፓኬጅ"}
                   number={filteringData.length}
@@ -296,11 +328,26 @@ function notCoffeeAtAll(){
                   //  }}
                 /> 
               </div>
-              <div className='flex '>
-                <PieChart threeValues ={[totalCleanCoffeeWeight(),totalNotCleanCoffeeWeight(),notCoffeeAtAll()]} labels = {['ንጹ ቡና', 'ንጹ ያልሆነ ቡና', 'ቡና ያልሆነ']}/>
+              
+              <div className=' flex-col border-2 border-red-400'>
+                <div className='flex justify-center mt-2'>
 
-                <PieChart threeValues ={[totalCoffee(),totalCleanCoffeeWeight(),totalNotCleanCoffeeWeight(),notCoffeeAtAll()]} labels = {['የተጣራው ቡና', 'ንጹ ቡና', 'ንጹ ያልሆነ ቡና', 'ቡና ያልሆነ']}/>
-                
+                  <LocationDropDown label="የሰነድ ቁጥር"   name="fileNumber" task2={true} arrayOfallData = {completedFiltering} onChange={(e)=>OnSelectDifferentFileNumber(e)} value={selectedFileNumber.fileNumber}
+                    /> 
+                </div>
+               { selectedFileNumber.fileNumber==="" || selectedFileNumber.fileNumber===" የሰነድ ቁጥር" ? 
+               <div className='flex '>
+                  <PieChart threeValues ={[totalCleanCoffeeWeight(),totalNotCleanCoffeeWeight(),notCoffeeAtAll()]} labels = {['ንጹ ቡና', 'ንጹ ያልሆነ ቡና', 'ቡና ያልሆነ']}/>
+
+                  <PieChart threeValues ={[totalCoffee(),totalCleanCoffeeWeight(),totalNotCleanCoffeeWeight(),notCoffeeAtAll()]} labels = {['የተጣራው ቡና', 'ንጹ ቡና', 'ንጹ ያልሆነ ቡና', 'ቡና ያልሆነ']}/>
+                </div> 
+                :
+                <div className='flex '>
+                  <PieChart threeValues ={[totalCleanCoffeeWeight(selectedFileNumber.fileNumber),totalNotCleanCoffeeWeight(selectedFileNumber.fileNumber),notCoffeeAtAll(selectedFileNumber.fileNumber)]}  labels = {['ንጹ ቡና', 'ንጹ ያልሆነ ቡና', 'ቡና ያልሆነ']}/>
+
+                  <PieChart threeValues ={[totalCoffee(selectedFileNumber.fileNumber),totalCleanCoffeeWeight(selectedFileNumber.fileNumber),totalNotCleanCoffeeWeight(selectedFileNumber.fileNumber),notCoffeeAtAll(selectedFileNumber.fileNumber)]} labels = {['የተጣራው ቡና', 'ንጹ ቡና', 'ንጹ ያልሆነ ቡና', 'ቡና ያልሆነ']}/>
+                </div> 
+                }
               </div>
              
             </div>
@@ -309,7 +356,6 @@ function notCoffeeAtAll(){
               handleRejectionTypes={handleRejectionTypes} onChange={onChange} filteringData={filteringData}
               onChangeDate={onChangeDate} otherForm={otherForm}
               cleanCoffee={cleanCoffee} onCleanCoffeeChange = {onCleanCoffeeChange} submitFilteringComplete = {submitFilteringComplete}
-
               />
             </div>
           
